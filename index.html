@@ -1,0 +1,801 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MACHTESH — השוטים</title>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0d;--panel:#141417;--bd:#26262c;--tx:#ececee;--dim:#9a9aa2;--acc:#d4a259;--ok:#4ade80}
+*{box-sizing:border-box}html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Assistant,-apple-system,system-ui,sans-serif;font-size:16px}
+.top{position:fixed;top:0;right:0;left:0;height:46px;display:flex;align-items:center;gap:14px;padding:0 18px;background:rgba(11,11,13,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);z-index:10;font-size:14px}
+.top b{font-family:'Frank Ruhl Libre',serif;font-size:18px;color:#fff}.top .st{color:var(--dim)}.top select{margin-inline-start:auto;background:#1b1b1f;color:#fff;border:1px solid var(--bd);border-radius:6px;padding:4px 8px;font-family:inherit;max-width:46vw}
+.shot{min-height:100vh;scroll-snap-align:start;padding:62px 28px 28px;display:grid;grid-template-columns:minmax(260px,340px) 1fr;grid-template-rows:auto 1fr auto;gap:14px 22px}
+.info{grid-row:1/3}.id{font-family:Menlo,monospace;font-size:30px;color:#fff;letter-spacing:.02em}.meta{color:var(--dim);font-size:14px;margin:2px 0 10px}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;color:#000;font-weight:700;margin-inline-start:6px;vertical-align:middle}
+.title{font-family:'Frank Ruhl Libre',serif;font-size:20px;margin:0 0 10px;color:#fff}
+.beats{font-size:16.5px;line-height:1.6}.note{color:#f1d9a8;font-size:14px;margin-top:10px;line-height:1.5}
+.refs{margin-top:12px;font-family:Menlo,monospace;font-size:12px;color:#9fc4ff;direction:ltr;text-align:left;line-height:1.7}
+.frame{grid-column:2;grid-row:1/3;background:#000;border:1px solid var(--bd);border-radius:10px;overflow:hidden;position:relative;aspect-ratio:21/9;align-self:center;width:100%}
+.frame video{width:100%;height:100%;display:block;background:#000}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--dim);gap:8px}.ph .big{font-family:'Frank Ruhl Libre',serif;font-size:28px;color:#3a3a42}
+.takes{position:absolute;bottom:10px;left:10px;display:flex;gap:6px;direction:ltr}.takes button{background:rgba(0,0,0,.6);color:#fff;border:1px solid #444;border-radius:6px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}.takes button.on{border-color:var(--ok);color:var(--ok)}.takes a{color:#fff;font-size:12px;background:rgba(0,0,0,.6);border:1px solid #444;border-radius:6px;padding:4px 9px;text-decoration:none}
+.sel{position:absolute;top:10px;left:10px;font-size:12px;color:var(--ok);background:rgba(0,0,0,.6);border:1px solid var(--ok);border-radius:999px;padding:3px 10px;direction:ltr}
+.pbox{grid-column:1/3;background:var(--panel);border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.phead{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--bd);font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.phead button{background:transparent;color:var(--acc);border:1px solid var(--bd);border-radius:5px;padding:3px 10px;font-size:11.5px;cursor:pointer;font-family:inherit}.phead button:hover{border-color:var(--acc)}.phead .cnt{margin-inline-start:auto;opacity:.7}
+pre.prompt{margin:0;padding:12px 16px;font-family:"SF Mono",Menlo,monospace;font-size:12.5px;line-height:1.5;white-space:pre-wrap;direction:ltr;text-align:left;max-height:4.6em;overflow:hidden;color:#d8d8dc}
+pre.prompt.open{max-height:none}.empty{color:var(--dim);font-style:italic;padding:12px 16px}
+.nav{position:fixed;bottom:16px;left:16px;display:flex;gap:6px;z-index:10;direction:ltr}.nav button{background:#1b1b1f;color:#fff;border:1px solid var(--bd);border-radius:8px;width:38px;height:38px;cursor:pointer;font-size:16px}
+@media(max-width:900px){.shot{grid-template-columns:1fr;grid-template-rows:auto auto auto;padding:58px 14px 20px}.info{grid-row:auto}.frame{grid-column:1;grid-row:auto}.pbox{grid-column:1}.id{font-size:24px}}
+</style></head><body>
+<div class="top"><b>MACHTESH</b><span class="st">115 קליפים · 2 פרומפטים · 0 עם וידאו · 0 נבחרו · עודכן 14.09.2026 23:12</span><span class="st" id="pos"></span>
+<select id="jump" onchange="location.hash=this.value"><option value="S01-C1">S01-C1 · סצ׳ 1 · חוץ. רכס מעל אתר בנדר, איראן — לילה</option><option value="S01-C2">S01-C2 · סצ׳ 1 · חוץ. רכס מעל אתר בנדר, איראן — לילה</option><option value="S02-C1">S02-C1 · סצ׳ 2 · פנים. קליניקה — יום</option><option value="S02-C2">S02-C2 · סצ׳ 2 · פנים. קליניקה — יום</option><option value="S02-C3">S02-C3 · סצ׳ 2 · פנים. קליניקה — יום</option><option value="S02-C4">S02-C4 · סצ׳ 2 · פנים. קליניקה — יום</option><option value="S03-C1">S03-C1 · סצ׳ 3 · חוץ/פנים. בית חווה בסוריה — לילה</option><option value="S03-C2">S03-C2 · סצ׳ 3 · חוץ/פנים. בית חווה בסוריה — לילה</option><option value="S03-C3">S03-C3 · סצ׳ 3 · חוץ/פנים. בית חווה בסוריה — לילה</option><option value="S04-C1">S04-C1 · סצ׳ 4 · פנים. מסוק — לילה</option><option value="S04-C2">S04-C2 · סצ׳ 4 · פנים. מסוק — לילה</option><option value="S04-C3">S04-C3 · סצ׳ 4 · פנים. מסוק — לילה</option><option value="S05-C1">S05-C1 · סצ׳ 5 · חוץ. הנגב — מסלול נחיתה — שחר</option><option value="S05-C2">S05-C2 · סצ׳ 5 · חוץ. הנגב — מסלול נחיתה — שחר</option><option value="S06-C1">S06-C1 · סצ׳ 6 · פנים. רכב ממוגן — נוסע — יום</option><option value="S06-C2">S06-C2 · סצ׳ 6 · פנים. רכב ממוגן — נוסע — יום</option><option value="S07-C1">S07-C1 · סצ׳ 7 · חוץ. קיר המכתש — יום</option><option value="S08-C1">S08-C1 · סצ׳ 8 · פנים. מכתש — מעלית רכב — יום</option><option value="S09-C1">S09-C1 · סצ׳ 9 · פנים. מכתש — חדר מלחמה — יום</option><option value="S09-C2">S09-C2 · סצ׳ 9 · פנים. מכתש — חדר מלחמה — יום</option><option value="S09-C3">S09-C3 · סצ׳ 9 · פנים. מכתש — חדר מלחמה — יום</option><option value="S10-C1">S10-C1 · סצ׳ 10 · פנים. מכתש — מסדרון — יום</option><option value="S10-C2">S10-C2 · סצ׳ 10 · פנים. מכתש — מסדרון — יום</option><option value="S11-C1">S11-C1 · סצ׳ 11 · פנים. מכתש — מגורי קול — לילה</option><option value="S11-C2">S11-C2 · סצ׳ 11 · פנים. מכתש — מגורי קול — לילה</option><option value="S12-C1">S12-C1 · סצ׳ 12 · פנים. דירקטורט 9, טהרן — משרד — לילה</option><option value="S12-C2">S12-C2 · סצ׳ 12 · פנים. דירקטורט 9, טהרן — משרד — לילה</option><option value="S12-C3">S12-C3 · סצ׳ 12 · פנים. דירקטורט 9, טהרן — משרד — לילה</option><option value="S13-C1">S13-C1 · סצ׳ 13 · פנים. מכתש — חדר מלחמה — יום</option><option value="S13-C2">S13-C2 · סצ׳ 13 · פנים. מכתש — חדר מלחמה — יום</option><option value="S13-C3">S13-C3 · סצ׳ 13 · פנים. מכתש — חדר מלחמה — יום</option><option value="S14-C1">S14-C1 · סצ׳ 14 · חוץ. ביירות — בית קפה — יום</option><option value="S14-C2">S14-C2 · סצ׳ 14 · חוץ. ביירות — בית קפה — יום</option><option value="S15-C1">S15-C1 · סצ׳ 15 · פנים. מחסן בביירות — יום</option><option value="S15-C2">S15-C2 · סצ׳ 15 · פנים. מחסן בביירות — יום</option><option value="S15-C3">S15-C3 · סצ׳ 15 · פנים. מחסן בביירות — יום</option><option value="S16-C1">S16-C1 · סצ׳ 16 · חוץ. ביירות — רחוב — יום</option><option value="S17-C1">S17-C1 · סצ׳ 17 · פנים. מכתש — חדר מלחמה — לילה</option><option value="S18-C1">S18-C1 · סצ׳ 18 · פנים/חוץ. לבנון — מונטאז&#x27; / מכתש — </option><option value="S18-C2">S18-C2 · סצ׳ 18 · פנים/חוץ. לבנון — מונטאז&#x27; / מכתש — </option><option value="S19-C1">S19-C1 · סצ׳ 19 · פנים. דירקטורט 9 — קומת מבצעים — יום</option><option value="S20-C1">S20-C1 · סצ׳ 20 · פנים. דירקטורט 9 — מסדרון — מאוחר יותר</option><option value="S20-C2">S20-C2 · סצ׳ 20 · פנים. דירקטורט 9 — מסדרון — מאוחר יותר</option><option value="S21-C1">S21-C1 · סצ׳ 21 · פנים. מכתש — חדר אוכל — לילה</option><option value="S21-C2">S21-C2 · סצ׳ 21 · פנים. מכתש — חדר אוכל — לילה</option><option value="S22-C1">S22-C1 · סצ׳ 22 · פנים. מכתש — חדר מלחמה — לילה</option><option value="S22-C2">S22-C2 · סצ׳ 22 · פנים. מכתש — חדר מלחמה — לילה</option><option value="S23-C1">S23-C1 · סצ׳ 23 · פנים. קליניקה — יום</option><option value="S23-C2">S23-C2 · סצ׳ 23 · פנים. קליניקה — יום</option><option value="S23-C3">S23-C3 · סצ׳ 23 · פנים. קליניקה — יום</option><option value="S24-C1">S24-C1 · סצ׳ 24 · פנים. מכתש — חדר תכנון — יום</option><option value="S24-C2">S24-C2 · סצ׳ 24 · פנים. מכתש — חדר תכנון — יום</option><option value="S25-C1">S25-C1 · סצ׳ 25 · פנים. מכתש — מסדרון הנשקייה — לילה</option><option value="S25-C2">S25-C2 · סצ׳ 25 · פנים. מכתש — מסדרון הנשקייה — לילה</option><option value="S26-C1">S26-C1 · סצ׳ 26 · חוץ/פנים. מנהרות עזה — לילה</option><option value="S26-C2">S26-C2 · סצ׳ 26 · חוץ/פנים. מנהרות עזה — לילה</option><option value="S27-C1">S27-C1 · סצ׳ 27 · פנים. מנהרה — אגף התאים — רציף</option><option value="S28-C1">S28-C1 · סצ׳ 28 · פנים. מכתש — חדר מלחמה — שחר</option><option value="S29-C1">S29-C1 · סצ׳ 29 · פנים. דירקטורט 9 — חדר ניתוח — יום</option><option value="S29-C2">S29-C2 · סצ׳ 29 · פנים. דירקטורט 9 — חדר ניתוח — יום</option><option value="S30-C1">S30-C1 · סצ׳ 30 · פנים. מכתש — מגורי קול — לילה</option><option value="S30-C2">S30-C2 · סצ׳ 30 · פנים. מכתש — מגורי קול — לילה</option><option value="S30-C3">S30-C3 · סצ׳ 30 · פנים. מכתש — מגורי קול — לילה</option><option value="S30-C4">S30-C4 · סצ׳ 30 · פנים. מכתש — מגורי קול — לילה</option><option value="S30-C5">S30-C5 · סצ׳ 30 · פנים. מכתש — מגורי קול — לילה</option><option value="S30-C6">S30-C6 · סצ׳ 30 · פנים. מכתש — מגורי קול — לילה</option><option value="S31-C1">S31-C1 · סצ׳ 31 · פנים. קליניקה — יום</option><option value="S31-C2">S31-C2 · סצ׳ 31 · פנים. קליניקה — יום</option><option value="S31-C3">S31-C3 · סצ׳ 31 · פנים. קליניקה — יום</option><option value="S31-C4">S31-C4 · סצ׳ 31 · פנים. קליניקה — יום</option><option value="S31-C5">S31-C5 · סצ׳ 31 · פנים. קליניקה — יום</option><option value="S32-C1">S32-C1 · סצ׳ 32 · פנים. דירקטורט 9 — המשרד של ואזירי — ליל</option><option value="S32-C2">S32-C2 · סצ׳ 32 · פנים. דירקטורט 9 — המשרד של ואזירי — ליל</option><option value="S33-C1">S33-C1 · סצ׳ 33 · פנים. מכתש — חדר מלחמה — יום</option><option value="S33-C2">S33-C2 · סצ׳ 33 · פנים. מכתש — חדר מלחמה — יום</option><option value="S34-C1">S34-C1 · סצ׳ 34 · פנים. מכתש — מגורי קול — לילה</option><option value="S34-C2">S34-C2 · סצ׳ 34 · פנים. מכתש — מגורי קול — לילה</option><option value="S34-C3">S34-C3 · סצ׳ 34 · פנים. מכתש — מגורי קול — לילה</option><option value="S34-C4">S34-C4 · סצ׳ 34 · פנים. מכתש — מגורי קול — לילה</option><option value="S35-C1">S35-C1 · סצ׳ 35 · פנים. מכתש — חדר מלחמה — לילה</option><option value="S36-C1">S36-C1 · סצ׳ 36 · פנים. מכתש — עמדת סיגינט — לילה</option><option value="S36-C2">S36-C2 · סצ׳ 36 · פנים. מכתש — עמדת סיגינט — לילה</option><option value="S37-C1">S37-C1 · סצ׳ 37 · פנים. מכתש — המשרד של דדו — לילה</option><option value="S37-C2">S37-C2 · סצ׳ 37 · פנים. מכתש — המשרד של דדו — לילה</option><option value="S37-C3">S37-C3 · סצ׳ 37 · פנים. מכתש — המשרד של דדו — לילה</option><option value="S38-C1">S38-C1 · סצ׳ 38 · פנים. מכתש — האנגר — לילה</option><option value="S39-C1">S39-C1 · סצ׳ 39 · פנים. מכתש — חדר מלחמה — לילה</option><option value="S40-C1">S40-C1 · סצ׳ 40 · חוץ. שמי איראן — לילה</option><option value="S41-C1">S41-C1 · סצ׳ 41 · פנים. טהרן — דירת מסתור — לילה</option><option value="S41-C2">S41-C2 · סצ׳ 41 · פנים. טהרן — דירת מסתור — לילה</option><option value="S42-C1">S42-C1 · סצ׳ 42 · חוץ. רכס מעל אתר בנדר — לילה</option><option value="S43-C1">S43-C1 · סצ׳ 43 · חוץ. היקף בנדר — רציף</option><option value="S44-C1">S44-C1 · סצ׳ 44 · חוץ. אתר בנדר — לילה</option><option value="S45-C1">S45-C1 · סצ׳ 45 · חוץ. טהרן — דרך הגבעה — לילה</option><option value="S46-C1">S46-C1 · סצ׳ 46 · חוץ. דרך הגבעה — רציף</option><option value="S46-C2">S46-C2 · סצ׳ 46 · חוץ. דרך הגבעה — רציף</option><option value="S47-C1">S47-C1 · סצ׳ 47 · חוץ. דרך הגבעה — רציף</option><option value="S48-C1">S48-C1 · סצ׳ 48 · חוץ. ואדי — רציף</option><option value="S49-C1">S49-C1 · סצ׳ 49 · פנים. מסוק — לילה</option><option value="S50-C1">S50-C1 · סצ׳ 50 · פנים. מכתש — חדר מלחמה — שחר</option><option value="S51-C1">S51-C1 · סצ׳ 51 · פנים. קליניקה — יום</option><option value="S51-C2">S51-C2 · סצ׳ 51 · פנים. קליניקה — יום</option><option value="S51-C3">S51-C3 · סצ׳ 51 · פנים. קליניקה — יום</option><option value="S52-C1">S52-C1 · סצ׳ 52 · פנים. מכתש — חדר מלחמה — יום</option><option value="S53-C1">S53-C1 · סצ׳ 53 · חוץ. קיבוץ תלמי-אור — יום</option><option value="S53-C2">S53-C2 · סצ׳ 53 · חוץ. קיבוץ תלמי-אור — יום</option><option value="S53-C3">S53-C3 · סצ׳ 53 · חוץ. קיבוץ תלמי-אור — יום</option><option value="S54-C1">S54-C1 · סצ׳ 54 · חוץ. בית קברות צבאי — יום</option><option value="S55-C1">S55-C1 · סצ׳ 55 · פנים. קליניקה — יום</option><option value="S55-C2">S55-C2 · סצ׳ 55 · פנים. קליניקה — יום</option><option value="S55-C3">S55-C3 · סצ׳ 55 · פנים. קליניקה — יום</option><option value="S55-C4">S55-C4 · סצ׳ 55 · פנים. קליניקה — יום</option><option value="S55-C5">S55-C5 · סצ׳ 55 · פנים. קליניקה — יום</option><option value="S56-C1">S56-C1 · סצ׳ 56 · חוץ. הנגב — שחר / פנים. מכתש — רציף</option><option value="S56-C2">S56-C2 · סצ׳ 56 · חוץ. הנגב — שחר / פנים. מכתש — רציף</option></select></div>
+<section class="shot" id="S01-C1" data-idx="0">
+  <div class="info"><div class="id">S01-C1</div><div class="meta">סצנה 1 · 30 שנ׳ · מסגרת · פתיחה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. רכס מעל אתר בנדר, איראן — לילה</h2><div class="beats">חושך → אש. קול שוכב על סלע מעל מכשיר הסימון, הגבעה מתפרקת, ירי מהתעלה מימין. דמות שנייה בקצה הפריים — כתף, יד על מחסנית, קול בקשר, אפס פנים. קריינות: «קוראים לי קול מרסר. בן 38.» חצובה נפגעת ונופלת, קול נשכב על המכשיר ומייצב אותו עם הגוף. קריינות: «תשע שנים ביחידה. עוד תשע במקום שלא מנפיק תגים.»</div><div class="note">⚠️ מאיה = לוח התלבושת בלבד (בלי ראש — מושלם לדמות בלי פנים). אין להצמיד את @maya. כרים: גוף בתעלה, פנים מוסבות.</div><div class="note">הפתיחה והשיא הם אותו מקום. פני מאיה אסורות בפריים עד סצנה 42.</div><div class="refs">@cole-tehran @iran-site @designator @maya-tehran-noface</div></div>
+  <div class="frame"><div class="ph"><div class="big">S01-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט מוכן</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span><button onclick="toggle('S01-C1',this)">see more</button><button onclick="copyP('S01-C1',this)">copy</button><span class="cnt">5,569 תווים</span></div><pre class="prompt" id="p-S01-C1">Ultra-realistic live-action war thriller, 30 seconds, 21:9, ELEVEN hard cuts, real time, no slow motion. Arri Alexa 35, anamorphic primes, fine film grain, deep blacks that hold detail, gentle halation on every light source. Night on a bare rock ridge above an industrial compound in a bowl of dark hills; palette of black rock, cold blue night, hot orange muzzle light and pale dust.
+
+IDENTITY
+@Image1 is a character reference sheet of ONE man shown three times (portrait, full front, full back); it is a single person, not a group, and the sheet, its grey background and panel borders never appear. He is the American: identical face, hair and stubble in every cut, zero drift; the exact wardrobe of that sheet - worn charcoal chore jacket over a dark sweater, black work trousers, dark boots - now coated in pale dust, no cap.
+@Image2 is the location: the ridge, the compound below with its lights, the ventilation shaft cut into the rock wall, the dirt track. The film happens on that ridge, looking down into that bowl. The reference panels never appear as a grid.
+@Image3 is the OBJECT DESIGN of the laser designator on its short tripod with the coiled cable and battery pack - ignore the studio background of that reference; here it stands on rock.
+@Image4 is a WARDROBE board with no head: the SECOND FIGURE, a woman in a long dusty dark coat and black headscarf with a canvas bag. Her face is NEVER in frame - only her shoulder, her back, her hands, the edge of the headscarf. No shot ever shows her face, not even in profile.
+A THIRD FIGURE returns fire from a shallow trench at frame right; only a silhouette and muzzle light, face never seen.
+SCREEN DIRECTION: the compound is below and to the LEFT; the trench and the incoming fire are to the RIGHT.
+
+THE POINT
+The opening of the film: we meet the man at the worst minute of his life, from inside the chaos, without understanding it yet. He does one thing - he keeps the designator on target with his own body while the hill comes apart. Played completely real: no heroics, no posing, just work under fire.
+
+ACT ONE - DARK, THEN FIRE
+[0:00-0:01.5] Pure black. Then a searchlight beam whips across the frame and a burst of orange muzzle light rips the dark open: a wide low shot along the ridge, dust already in the air, the compound lights below at frame left.
+[0:01.5-0:04] Close on the American, prone on rock, cheek almost to the ground, both hands locked on the designator on its tripod, its lens aimed down into the bowl. Grit jumps off the rock beside his hand with each impact. His eyes stay on the compound.
+[0:04-0:06] Over his shoulder, long lens: the compound below, a truck&#x27;s headlights swinging on the internal road, a searchlight sweeping up toward us. The ventilation grille in the rock wall catches the light for a moment.
+[0:06-0:08] Frame right: the trench. A silhouette rises and fires back down the slope - three flat flashes - and drops. Tracers cross frame left to right.
+
+ACT TWO - THE SECOND FIGURE
+[0:08-0:10.5] Extreme close: a woman&#x27;s hands in the dust slam a magazine home, then her shoulder in the dark dusty coat fills the frame as she moves past camera. No face - the headscarf edge and the coat only.
+[0:10.5-0:13] Two-shot from behind them both, low: the American prone on the device at frame left, the woman kneeling at frame right, her back to camera, aiming down the slope. The whole hillside between them lit in pulses by incoming fire.
+[0:13-0:15.5] Macro on the designator: the small status light on its body steady, the lens hood vibrating with each concussion, dust skating across the casing.
+
+ACT THREE - THE TRIPOD GOES
+[0:15.5-0:18] Medium on the device: a round hits the rock under it - a spray of chips - and one tripod leg buckles; the designator tips sideways.
+[0:18-0:21] The American throws himself over it, chest on the casing, elbows dug into rock, forearms locked around the tripod, dragging the lens back onto the compound. Dust explodes around him; he does not flinch.
+[0:21-0:25] Close on his face from the front, low, the lens of the designator at the bottom of frame: eyes narrowed against the dust, jaw set, every pulse of light from below crossing his face. He holds. Behind him, out of focus, the woman&#x27;s shoulder rises and fires.
+[0:25-0:30] Wide from the far side of the ridge, long lens: the two prone figures small on the rock, the searchlight finding them, the compound lights below, dust drifting through the beam. Hold the last two seconds on that wide.
+
+AUDIO
+No dialogue and no narration in this clip (the voice-over is added in post). The hill is the soundtrack: the crack and echo of rifle fire, incoming rounds snapping over the ridge, rock chips skittering, the electric whine of the searchlight motor, the woman&#x27;s magazine seating with a hard click, the American&#x27;s breathing tight and controlled, the tripod scraping on rock when it buckles, his body landing on the casing. A low sub-bass rumble under everything from the valley. No music.
+
+AVOID
+No blood, no wounds, no injuries, no bodies; nobody is hit on screen. No readable text, numbers, flags, insignia or unit markings anywhere. The second figure&#x27;s face is never visible, never in profile, never in a reflection. The American&#x27;s face never drifts from @Image1 . No slow motion, no speed ramps, no lens flares drawn across the frame, no fog-machine haze - only real dust. No daylight. The reference sheets, their grey backgrounds and panel grids never appear. No extra people beyond the three figures on the ridge; the compound below shows only lights and vehicles, no crowd.</pre></div>
+</section>
+<section class="shot" id="S01-C2" data-idx="1">
+  <div class="info"><div class="id">S01-C2</div><div class="meta">סצנה 1 · 25 שנ׳ · מסגרת · פתיחה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. רכס מעל אתר בנדר, איראן — לילה</h2><div class="beats">הדמות השנייה יורה מעל ראשו. קריינות: «לא נשוי. אין ילדים. אין כלב.» הגבעה נדלקת, משהו עמוק באדמה מתרומם. קריינות: «אני עובד לבד ואני טוב בזה.» השקט נופל כמו מתג — רוטורים רחוקים, אבק. קול אישה, קרוב, בחדר סגור: «אז למה אתה פה?» — חיתוך.</div><div class="note">⚠️ הקליפ הזה = סצנות 42–44 מזווית אחרת. הבזקי לוע ואבק בלבד — אפס פציעות על המסך.</div><div class="note">הפתיחה והשיא הם אותו מקום. פני מאיה אסורות בפריים עד סצנה 42.</div><div class="refs">@cole-tehran @iran-site @designator @maya-tehran-noface</div></div>
+  <div class="frame"><div class="ph"><div class="big">S01-C2</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט מוכן</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span><button onclick="toggle('S01-C2',this)">see more</button><button onclick="copyP('S01-C2',this)">copy</button><span class="cnt">5,324 תווים</span></div><pre class="prompt" id="p-S01-C2">Ultra-realistic live-action war thriller, 25 seconds, 21:9, NINE hard cuts, real time, no slow motion. Arri Alexa 35, anamorphic primes, fine film grain, deep blacks that hold detail, gentle halation on every light source. Night on a bare rock ridge above an industrial compound in a bowl of dark hills; palette of black rock, cold blue night, hot orange muzzle light and pale dust - and then the whole bowl goes white.
+
+CONTINUITY
+@Video1 is a VISUAL continuity reference ONLY: same ridge, same night, same three figures, same wardrobe, same dust and colour grade. Do not copy its audio; generate new synchronized sound per the AUDIO block. This clip picks up in the same minute of the same firefight.
+
+IDENTITY
+@Image1 is a character reference sheet of ONE man shown three times (portrait, full front, full back); it is a single person, not a group, and the sheet, its grey background and panel borders never appear. He is the American: identical face, hair and stubble in every cut, zero drift; the exact wardrobe of that sheet - worn charcoal chore jacket over a dark sweater, black work trousers, dark boots - coated in pale dust, no cap.
+@Image2 is the location: the ridge, the compound below with its lights, the ventilation shaft cut into the rock wall. The reference panels never appear as a grid.
+@Image3 is the OBJECT DESIGN of the laser designator on its short tripod with the coiled cable and battery pack - ignore the studio background of that reference; here it stands on rock.
+@Image4 is a WARDROBE board with no head: the SECOND FIGURE, a woman in a long dusty dark coat and black headscarf with a canvas bag. Her face is NEVER in frame - only her shoulder, her back, her hands, the edge of the headscarf. No shot ever shows her face, not even in profile.
+A THIRD FIGURE fires from the shallow trench at frame right; silhouette only, face never seen.
+SCREEN DIRECTION: the compound is below and to the LEFT; the trench is to the RIGHT.
+
+THE POINT
+The bombs arrive. The man never stops holding the designator; the earth answers; and then the sound is cut like a switch and we are left with his face in the dust - the face the whole film is about to explain.
+
+ACT ONE - HOLDING
+[0:00-0:02.5] Close on the American prone over the designator, chest on the casing, forearms locked around the tripod, eyes down on the compound. Incoming fire pulses across him.
+[0:02.5-0:05] From behind his head, low: the woman rises into frame at frame right, back to camera, and fires down the slope directly over him - the muzzle flash lights the back of his head and the rock. Her face stays turned away.
+[0:05-0:07.5] Long lens on the compound below: the searchlight pinned on the ridge, the truck stopped on the internal road, tiny figures running between the buildings toward the ventilation grille in the rock wall.
+
+ACT TWO - THE EARTH RISES
+[0:07.5-0:10] Extreme close: the designator&#x27;s lens, a pinpoint of light steady on its glass, the American&#x27;s knuckles white on the tripod beside it. The rumble starts - dust begins to lift off the casing on its own.
+[0:10-0:12.5] Wide from the ridge: a white bloom of light deep inside the compound, then a second; the ventilation grille vomits a column of dust and debris straight up into the searchlight beam.
+[0:12.5-0:15] The ground itself lifts - the ridge shudders, rocks hop, the tripod dances, the woman is thrown to her knees at frame right, and the whole bowl below is swallowed in an expanding wall of pale dust that rolls up the slope toward camera.
+[0:15-0:17] The dust wall hits the ridge: the frame goes almost white, the two figures reduced to shapes, the searchlight beam a smear through it.
+
+ACT THREE - THE SWITCH
+[0:17-0:20] The dust thins. Close on the American&#x27;s face, low, from the front: he lifts his head off the casing an inch, coated in grey dust, eyes open, blinking once. Nothing else in the frame moves.
+[0:20-0:25] Slow push-in on his eyes through the drifting dust, the light from below now a steady dull orange glow. He does not look away from the compound. Hold on his face to the last frame.
+
+AUDIO
+No dialogue and no narration (the voice-over is added in post). Continue the hill&#x27;s soundtrack: rifle fire, incoming rounds, the searchlight whine, her rifle firing over him at 0:03. From 0:08 a deep sub-bass rumble rises under everything; the two detonations at 0:10 and 0:11 are felt more than heard - two enormous soft thumps through the rock - then the roar of the dust wall rolling up the slope. AT 0:17 EVERY SOUND STOPS DEAD, as if a switch was thrown: from 0:17 to 0:25 only a thin high ringing, faint rotor blades very far away, and dust hissing across rock. No music.
+
+AVOID
+No blood, no wounds, no injuries, no bodies; nobody is hit on screen. No fireball, no flames, no orange explosion - the detonations are white light and dust from underground. No readable text, numbers, flags, insignia or unit markings anywhere. The second figure&#x27;s face is never visible, never in profile, never in a reflection. The American&#x27;s face never drifts from @Image1 . No slow motion, no speed ramps, no lens flares drawn across the frame, no fog-machine haze - only real dust. No daylight. The reference sheets, their grey backgrounds and panel grids never appear. No faces in the compound below; no extra people on the ridge beyond the three figures.</pre></div>
+</section>
+<section class="shot" id="S02-C1" data-idx="2">
+  <div class="info"><div class="id">S02-C1</div><div class="meta">סצנה 2 · 30 שנ׳ · מסגרת · פתיחה<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">חדר קטן, שני כיסאות, שולחן נמוך, וילון מוסט חצי — לא רואים מה בחוץ. קול בבגדים אזרחיים, ידיים על הברכיים; בראל עם תיק פתוח שהיא לא מסתכלת בו. שתיקה ארוכה. «כי כתוב בטופס שאני חייב.» / «נכון. שלוש פגישות לפני שמחזירים אותך לתפקיד. זאת הראשונה.» / «אז בואי נגמור אותה.» היא מחייכת קצת.</div><div class="note">⚠️ הווילון סגור! פאנל 4 של @clinic (וילון פתוח) שמור לסצנה 55 — לנעול בפרומפט.</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S02-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S02-C2" data-idx="3">
+  <div class="info"><div class="id">S02-C2</div><div class="meta">סצנה 2 · 30 שנ׳ · מסגרת · פתיחה<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«סיפרת לי עכשיו ארבעה משפטים על עצמך. גיל, ותק, מצב משפחתי, ושאתה עובד לבד.» / «נכון.» / «אף אחד מהם לא היה על מה שקרה שם.» / «שאלת מי אני.» / «שאלתי למה אתה פה.» הוא מסתכל עליה — הפעם הראשונה באמת.</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S02-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S02-C3" data-idx="4">
+  <div class="info"><div class="id">S02-C3</div><div class="meta">סצנה 2 · 30 שנ׳ · מסגרת · פתיחה<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«קול, אני לא ועדת חקירה ואני לא מדווחת לוושינגטון. אני כותבת בסוף שורה אחת: כשיר או לא כשיר.» / «ומה תכתבי?» / «תלוי בך. יש לנו 50 דקות.» שתיקה. הוא מסתכל על הידיים שלו.</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S02-C3</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S02-C4" data-idx="5">
+  <div class="info"><div class="id">S02-C4</div><div class="meta">סצנה 2 · 15 שנ׳ · מסגרת · פתיחה<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«את רוצה שאתחיל מהסוף.» / «אני רוצה שתתחיל מאיפה שזה התחיל.» הוא חושב הרבה זמן. «אז זה התחיל בסוריה. 122 יום אחרי השבעה באוקטובר. הוצאתי בן אדם מכיסא.»</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S02-C4</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S03-C1" data-idx="6">
+  <div class="info"><div class="id">S03-C1</div><div class="meta">סצנה 3 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#7a6a9a">סוריה</span></div>
+    <h2 class="title">חוץ/פנים. בית חווה בסוריה — לילה</h2><div class="beats">לילה בלי ירח, בית אבן על מישור שחור. ארבע דמויות חוצות שטח פתוח בשקט, קול מוביל — פנים מכוסות. בפנים: אבן, עפר, מנורת נפט. פארוק קשור לכיסא, לא מרים את הראש. קול כורע, חותך אזיקונים, יד על החזה שלו. «פארוק. תסתכל עליי.» הראש עולה לאט.</div><div class="note">⚠️ פארוק &#x27;מוכה קשות&#x27; — להשתמש בפנים מהשיט (סימנים ישנים), בלי דם.</div><div class="refs">@cole-field @farrokh @syria</div></div>
+  <div class="frame"><div class="ph"><div class="big">S03-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S03-C2" data-idx="7">
+  <div class="info"><div class="id">S03-C2</div><div class="meta">סצנה 3 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#7a6a9a">סוריה</span></div>
+    <h2 class="title">חוץ/פנים. בית חווה בסוריה — לילה</h2><div class="beats">«אני זה שדיברת איתו. תשעה חודשים. קראת לי קרדינל.» / «קרדינל זה קול בטלפון.» / «קרדינל בא.» קול מוריד את הכיסוי — רואים אותו לראשונה. «אתה הולך או שאני סוחב אותך. כך או כך אתה עולה על המסוק.» / «אשתי—» / «עברה את הגבול לפני תשע שעות. היא באנקרה. היא כועסת עליך.»</div><div class="refs">@cole-field @farrokh @syria</div></div>
+  <div class="frame"><div class="ph"><div class="big">S03-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S03-C3" data-idx="8">
+  <div class="info"><div class="id">S03-C3</div><div class="meta">סצנה 3 · 15 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#7a6a9a">סוריה</span></div>
+    <h2 class="title">חוץ/פנים. בית חווה בסוריה — לילה</h2><div class="beats">פארוק צוחק, הצחוק הופך למשהו אחר. קול מכניס כתף מתחת לזרוע ומרים. בחוץ פנסים עוברים על החלון, מנוע. קול לא ממהר — סופר. «60 שניות. זזים.»</div><div class="refs">@cole-field @farrokh @syria</div></div>
+  <div class="frame"><div class="ph"><div class="big">S03-C3</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S04-C1" data-idx="9">
+  <div class="info"><div class="id">S04-C1</div><div class="meta">סצנה 4 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#4fa3b8">אוויר</span></div>
+    <h2 class="title">פנים. מסוק — לילה</h2><div class="beats">אור אדום. פארוק בשמיכת חירום, מסתכל על קול כמו על אל שהתגלה כבן אדם. «קרדינל. איך קוראים לך? באמת.» / «אתה לא רוצה לדעת.» / «נתתי לך 11 שמות. תן לי אחד.» קול כמעט מחייך. «קול.» / «זה לא שם. זה צליל.»</div><div class="note">⚠️ @helicopter = עיצוב הפנים של המסוק בלבד; להתעלם מרקע ההאנגר של השיט.</div><div class="refs">@cole-field @farrokh @helicopter</div></div>
+  <div class="frame"><div class="ph"><div class="big">S04-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S04-C2" data-idx="10">
+  <div class="info"><div class="id">S04-C2</div><div class="meta">סצנה 4 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#4fa3b8">אוויר</span></div>
+    <h2 class="title">פנים. מסוק — לילה</h2><div class="beats">איש צוות מושיט מכשיר קשר לווייני. קול מקשיב 11 שניות, הפנים לא זזות. «תגידי שוב.» ראסק (בקשר, מעוות): «אתה ממריא. אתה טס לישראל.» / «הרגע הוצאתי את האיש הזה מכיסא. אני טס איתו לאנקרה.» / «מישהו אחר יטוס איתו. זו לא בקשה, קול. מישהו למעלה ביקש אותך בשם.»</div><div class="note">⚠️ קול של ראסק מהמכשיר — לנעול: הפה של קול סגור בזמן שהיא מדברת (לקח: דיאלוג off-frame גורם לדמות בפריים לדבר).</div><div class="refs">@cole-field @farrokh @helicopter</div></div>
+  <div class="frame"><div class="ph"><div class="big">S04-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S04-C3" data-idx="11">
+  <div class="info"><div class="id">S04-C3</div><div class="meta">סצנה 4 · 10 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#4fa3b8">אוויר</span></div>
+    <h2 class="title">פנים. מסוק — לילה</h2><div class="beats">«מי למעלה?» / «מעליי.» הוא מסתכל החוצה על השחור. משהו עובר על הפנים שלו והוא מכבה את זה. «קיבלתי.»</div><div class="refs">@cole-field @farrokh @helicopter</div></div>
+  <div class="frame"><div class="ph"><div class="big">S04-C3</div><div>טרם נוצר · 10 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S05-C1" data-idx="12">
+  <div class="info"><div class="id">S05-C1</div><div class="meta">סצנה 5 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">חוץ. הנגב — מסלול נחיתה — שחר</h2><div class="beats">מטוס תובלה אפור מסיים ריצה על בטון חשוף, חום עולה מהקרקע. רכב שטח ממוגן מחכה; מאיה לידו, בגדים אזרחיים, מגפיים מאובקים, מסתכלת בשעון. קול יורד מהרמפה עם תיק אחד. «מרסר.» / «זה אני.» / «טלפון.» / «הוא מוצפן.» / «יופי לו. טלפון.»</div><div class="note">⚠️ קול בהגעה = הלוק של השיט הראשי (טי אוליב + מכנסי דגמ״ח) — בלי לוח תלבושת, פחות סיכון.</div><div class="refs">@cole @maya @suv @desert @plane</div></div>
+  <div class="frame"><div class="ph"><div class="big">S05-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S05-C2" data-idx="13">
+  <div class="info"><div class="id">S05-C2</div><div class="meta">סצנה 5 · 18 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">חוץ. הנגב — מסלול נחיתה — שחר</h2><div class="beats">הוא נותן לה. היא אוטמת אותו בשקית ושמה בכיס. «אני מקבל גם שם, או שממשיכים ככה?» / «אדר.» / «שם פרטי?» / «אדר.» היא נכנסת לרכב. הוא עומד רגע באבק והולך אחריה — עולה לרכב (שוט מעבר משלו).</div><div class="note">⚠️ העלייה לרכב = שוט ייעודי (לקח המסוק: מעבר שלא נכתב נעלם).</div><div class="refs">@cole @maya @suv @desert</div></div>
+  <div class="frame"><div class="ph"><div class="big">S05-C2</div><div>טרם נוצר · 18 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S06-C1" data-idx="14">
+  <div class="info"><div class="id">S06-C1</div><div class="meta">סצנה 6 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">פנים. רכב ממוגן — נוסע — יום</h2><div class="beats">מדבר ריק בחלון, מאיה נוהגת, שתיקה ארוכה. «שאלת אותי משהו כשירדתי מהמטוס?» / «לא.» / «אה. חשבתי שפספסתי משהו.» שתיקה. «אתה יודע למה אתה פה?»</div><div class="refs">@cole @maya @suv @desert</div></div>
+  <div class="frame"><div class="ph"><div class="big">S06-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S06-C2" data-idx="15">
+  <div class="info"><div class="id">S06-C2</div><div class="meta">סצנה 6 · 25 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">פנים. רכב ממוגן — נוסע — יום</h2><div class="beats">«אני פה כי לוושינגטון יש מקור בטהרן ואתם רוצים את מה שהוא מוסר. המחיר הוא שאני עומד בחדר.» / «ואתה בסדר עם זה? להיות מחיר?» / «זה התפקיד.» מבט וחזרה לכביש. «שתדע שלא רוצים אותך פה. זה לא אישי.» / «תמיד זה אישי. פשוט לא שלי.»</div><div class="refs">@cole @maya @suv @desert</div></div>
+  <div class="frame"><div class="ph"><div class="big">S06-C2</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S07-C1" data-idx="16">
+  <div class="info"><div class="id">S07-C1</div><div class="meta">סצנה 7 · 22 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">חוץ. קיר המכתש — יום</h2><div class="beats">הרכב עוצר מול מצוק אבן חול חלק. «איפה הבסיס?» / «אתה מסתכל עליו.» תפר דק נפתח בסלע; דלת הדף ענקית בחיפוי אבן חול נגררת אחורה, חול נשפך; מאחוריה מנהרת בטון מוארת שיורדת. «ברוך הבא למכתש.»</div><div class="refs">@base-door @suv @cole @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S07-C1</div><div>טרם נוצר · 22 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S08-C1" data-idx="17">
+  <div class="info"><div class="id">S08-C1</div><div class="meta">סצנה 8 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מעלית רכב — יום</h2><div class="beats">פלטפורמה בגודל מגרש יורדת לתוך האדמה, סימוני עומק חולפים למעלה (פסים צבועים, בלי ספרות קריאות). למטה החלל נפתח — עיר תת-קרקעית באורך קילומטר: עמודי סלע, שורות תאורה, מטוסים תחת ברזנטים, גשרים בשלוש קומות, דמויות כנמלים. קול שותק. «כולם עושים את הפרצוף הזה.» / «כמה זמן זה פה?» / «יותר שנים משיש לך סיווג.»</div><div class="note">⚠️ השוט היקר ביותר בסרט מבחינת סקייל — עדיפות לפיילוט.</div><div class="refs">@hangar @cole @maya @suv @base-door</div></div>
+  <div class="frame"><div class="ph"><div class="big">S08-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S09-C1" data-idx="18">
+  <div class="info"><div class="id">S09-C1</div><div class="meta">סצנה 9 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">מסכים בקומות, 50 איש בשקט. דדו במרכז, שרוולים מקופלים, לא מושיט יד. «אתה האמריקאי.» / «אני האמריקאי.» / «קברתי 19 מהאנשים שלי באוקטובר. חלק מהם בני 20.» / «אני יודע.» / «אתה לא יודע. קראת על זה.» שתיקה. תומר מסתובב בכיסא, אוזניות חצי מורדות, מרותק.</div><div class="refs">@warroom @dado @cole @tomer @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S09-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S09-C2" data-idx="19">
+  <div class="info"><div class="id">S09-C2</div><div class="meta">סצנה 9 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">«תסביר לי למה שאתן לך לעמוד פה.» / «כי יש לי מקור בתוך דירקטורט 9 שמדבר רק איתי. תשעה חודשים, 11 דיווחים, אפס פספוסים. הוצאתי אותו מסוריה לפני 36 שעות והוא עדיין מדבר.» / «ואם אני רוצה את המקור בלעדיך?»</div><div class="refs">@warroom @dado @cole @tomer @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S09-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S09-C3" data-idx="20">
+  <div class="info"><div class="id">S09-C3</div><div class="meta">סצנה 9 · 25 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">«אז תקבל תמלילים באיחור של יומיים, אחרי שאנשים שלא היו בשטח סיננו אותם. או שתקבל אותי, בזמן אמת, בחדר.» דדו בוחן אותו. «אתה תמיד ככה?» / «ככה איך?» / «מדויק.» / «כן.» דדו חוזר למסכים. «אז תעמוד שם.»</div><div class="refs">@warroom @dado @cole @tomer @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S09-C3</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S10-C1" data-idx="21">
+  <div class="info"><div class="id">S10-C1</div><div class="meta">סצנה 10 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מסדרון — יום</h2><div class="beats">מסדרון בטון ארוך, פס צהוב-שחור. מאיה מובילה. «90 מטר מעל הראש שלך זה חול. אין קליטה, אין חלונות, אין שעונים על הקירות. אנשים מאבדים פה תחושת זמן. תאכל כשאומרים לך לאכול.» / «ואם לא?» / «אז תעבוד 30 שעות ותהיה בטוח שעברו שמונה, ואז תעשה טעות ומישהו ימות. זה כבר קרה. לכן אומרים את זה לכולם.»</div><div class="refs">@corridor @cole @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S10-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S10-C2" data-idx="22">
+  <div class="info"><div class="id">S10-C2</div><div class="meta">סצנה 10 · 22 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מסדרון — יום</h2><div class="beats">לוח עם עשרות תמונות פנים. קול מאט; מאיה שמה לב. «החטופים.» / «כמה?» / «15 שיש לנו עליהם משהו. 11 שאין לנו כלום.» הוא לא מסתכל על הלוח יותר מדי זמן.</div><div class="note">⚠️ לא להצמיד @photo כאן — התמונה של נועה נחשפת רק בסצנה 22. שמות על הלוח מחוץ למישור המיקוד.</div><div class="refs">@corridor @cole @maya @hostage-board</div></div>
+  <div class="frame"><div class="ph"><div class="big">S10-C2</div><div>טרם נוצר · 22 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S11-C1" data-idx="23">
+  <div class="info"><div class="id">S11-C1</div><div class="meta">סצנה 11 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">חדר בטון: מיטה, ארון פלדה, מנורה אחת. קול מסדר ציוד בשיטתיות — ועוצר. מבטנת התיק: מעטפה חומה סגורה, רכה משנים. &#x27;Cole&#x27; בכתב יד. מחזיק, לא פותח, מסתכל הרבה זמן. מכניס לארון, מסובב את החוגה, מתיישב על המיטה.</div><div class="note">⚠️ המילה היחידה שמותר לה להיות קריאה בסרט: Cole על המעטפה — משוכפלת מ-@letter-sealed בלבד.</div><div class="refs">@cole @cole-room @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S11-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S11-C2" data-idx="24">
+  <div class="info"><div class="id">S11-C2</div><div class="meta">סצנה 11 · 15 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">דפיקה. מאיה בפתח. «תדריך בחמש. ביירות.» / «ביירות.» / «אתה מדבר ערבית?» / «מספיק כדי להזמין אוכל גרוע.» / «מצוין. אתה תהיה הולנדי.» היא הולכת. הוא מסתכל על הארון.</div><div class="refs">@cole @cole-room @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S11-C2</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S12-C1" data-idx="25">
+  <div class="info"><div class="id">S12-C1</div><div class="meta">סצנה 12 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9, טהרן — משרד — לילה</h2><div class="beats">עץ כהה, ספרייה, מנורת פליז. ואזירי קורא ספר שירה דק. העוזר מניח תיקייה ושני ביפרים שחורים. «המשלוח הלבנוני שוחרר מהמכס. 8,000 יחידות.» ואזירי מסמן את המקום באצבע, מרים מבט. «וכולם עוברים לזה? בלי יוצא מן הכלל?» / «זו פקודה. מי שנתפס עם טלפון סלולרי — מודח.»</div><div class="note">⚠️ לא להצמיד @file (יש בו תמונה של קול) — התיקייה כאן גנרית. הספר מחוץ למישור המיקוד.</div><div class="refs">@vaziri @aide @vaziri-office @pager</div></div>
+  <div class="frame"><div class="ph"><div class="big">S12-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S12-C2" data-idx="26">
+  <div class="info"><div class="id">S12-C2</div><div class="meta">סצנה 12 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9, טהרן — משרד — לילה</h2><div class="beats">ואזירי מרים ביפר, מסובב בין האצבעות. «שנתיים הם מדברים בטלפונים והישראלים שומעים כל מילה. יודעים איפה כל אחד ישן.» / «אמרו לי שזה נראה כמו צעצוע משנת 2005.» / «בדיוק בגלל זה. אין בו מיקום, אין מיקרופון, אין מצלמה. הוא רק מקבל.»</div><div class="refs">@vaziri @aide @vaziri-office @pager</div></div>
+  <div class="frame"><div class="ph"><div class="big">S12-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S12-C3" data-idx="27">
+  <div class="info"><div class="id">S12-C3</div><div class="meta">סצנה 12 · 10 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9, טהרן — משרד — לילה</h2><div class="beats">מניח את הביפר ומושך את התיקייה. «הישראלים בונים מטוסים ולוויינים. אין להם סבלנות לצעצועים.» חותם. מזיז חזרה. «חמישי מקובל.»</div><div class="refs">@vaziri @aide @vaziri-office @pager</div></div>
+  <div class="frame"><div class="ph"><div class="big">S12-C3</div><div>טרם נוצר · 10 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S13-C1" data-idx="28">
+  <div class="info"><div class="id">S13-C1</div><div class="meta">סצנה 13 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">המשלוח על המסך: ארגזים, אזור מחסנים בביירות. «אנחנו ייצרנו אותם. חברה בהונגריה, רישיון אמיתי, קטלוג אמיתי, לקוחות אמיתיים. הם הזמינו 8,000 יחידות והם בטוחים שקנו שקט.» / «אז מה הבעיה?» / «המשלוח יצא מהמחסן שלנו לפני חמישה שבועות ומאז עבר ארבע ידיים. אני צריך לדעת שהאצווה שלמה ובמקום אחד לפני שאני נותן פקודה.»</div><div class="refs">@warroom @dado @cole @maya @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S13-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S13-C2" data-idx="29">
+  <div class="info"><div class="id">S13-C2</div><div class="meta">סצנה 13 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">«ואם היא לא?» / «אם מכרו חצי ממנה הלאה, חצי מהמכשירים יתפוצצו אצל אנשים שאני לא בחרתי. זה לא יקרה.» קול רכון על תוכנית הקומה. «מי המוכר?» / «מתווך. יבוא-יצוא. מוכר לכל אחד, מפחד מכולם.» / «אז הוא ימכור לקונה הולנדי עם מזומן ובלי שאלות.»</div><div class="refs">@warroom @dado @cole @maya @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S13-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S13-C3" data-idx="30">
+  <div class="info"><div class="id">S13-C3</div><div class="meta">סצנה 13 · 25 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">«אדר נוסעת. יש לה את השפה.» / «יש לה גם פנים שאולי מכירים. לי אין. אף אחד בביירות לא ראה אותי בחיים.» שתיקה. מאיה מסתכלת עליו מחדש. «הוא צודק.»</div><div class="refs">@warroom @dado @cole @maya @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S13-C3</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S14-C1" data-idx="31">
+  <div class="info"><div class="id">S14-C1</div><div class="meta">סצנה 14 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">חוץ. ביירות — בית קפה — יום</h2><div class="beats">סוכך ירוק דהוי, שולחנות קטנים, קטנועים, כבלים מסובכים. קול ומאיה — פשתן, משקפי שמש, זוג אירופאי משעמם בכוונה. מאיה כמעט בלי להזיז שפתיים: «שניים עוקבים. חולצה כחולה ליד דוכן העיתונים. השני זה המלצר.» / «המלצר הוא סתם מלצר.» / «למלצר יש אקדח מתחת לסינר.» / «אז הוא מלצר עם אקדח. זו ביירות.»</div><div class="note">⚠️ עיתונים בדוכן מקופלים ומחוץ למיקוד. האקדח = &#x27;צורה קשיחה מתחת לבד הסינר&#x27;, לא חפץ.</div><div class="refs">@cole-beirut @maya-beirut @beirut-street</div></div>
+  <div class="frame"><div class="ph"><div class="big">S14-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S14-C2" data-idx="32">
+  <div class="info"><div class="id">S14-C2</div><div class="meta">סצנה 14 · 22 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">חוץ. ביירות — בית קפה — יום</h2><div class="beats">מרצדס כסופה עוצרת. המתווך יוצא — מזיע, מחייך, מסוכן, ידיים פרושות. «מר דה-פריס! מצאתם אותנו.» / «ההוראות שלך היו טובות.» / «ההוראות שלי תמיד טובות. גם המחירים.» / «נשמח לראות את הסחורה היום.» / «היום? לחברים היום זה תמיד אפשרי.»</div><div class="refs">@cole-beirut @maya-beirut @middleman @beirut-street</div></div>
+  <div class="frame"><div class="ph"><div class="big">S14-C2</div><div>טרם נוצר · 22 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S15-C1" data-idx="33">
+  <div class="info"><div class="id">S15-C1</div><div class="meta">סצנה 15 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">פנים. מחסן בביירות — יום</h2><div class="beats">חלל ענק, ארגזים עד התקרה, קרני אור מחלונות הגג. שני שומרים משועממים ליד הדלת. «מוניטורים רפואיים. טורקיים. מחיר מצוין.» / «תראה לי אחד.» / «הם אטומים.» / «כבר מכרו לי ארגזים אטומים מלאים בלבנים. תראה לי אחד.» מתח. המתווך צוחק, מחליט, פותח ארגז: שורות ביפרים שחורים בספוג.</div><div class="note">⚠️ השומרים: &#x27;ידיים שלובות, כלים על הכתף כצללית&#x27; — בלי להדגיש נשק.</div><div class="refs">@cole-beirut @maya-beirut @middleman @beirut-warehouse @pager</div></div>
+  <div class="frame"><div class="ph"><div class="big">S15-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S15-C2" data-idx="34">
+  <div class="info"><div class="id">S15-C2</div><div class="meta">סצנה 15 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">פנים. מחסן בביירות — יום</h2><div class="beats">קול מרים ביפר, הופך. האגודל נשאר על המספר הסידורי חצי שנייה יותר מדי (האגודל מכסה — אין ספרות). «לא רפואי.» / «לא העסק שלי.» / «תשובה נכונה.» שומר בטלפון. הפנים של המתווך משתנות בשתי דרגות. «חבר שלי אומר שאין ברוטרדם חברה עם השם שלך.» היד של מאיה זזה לתיק; קול עוצר אותה בשתי אצבעות על השולחן.</div><div class="refs">@cole-beirut @maya-beirut @middleman @beirut-warehouse @pager</div></div>
+  <div class="frame"><div class="ph"><div class="big">S15-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S15-C3" data-idx="35">
+  <div class="info"><div class="id">S15-C3</div><div class="meta">סצנה 15 · 18 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">פנים. מחסן בביירות — יום</h2><div class="beats">«אין. יש באנטוורפן חברה על שם עורך הדין שלי. אם תמצא את זאת שעל שמי תגיד לי, כי רשות המסים ההולנדית מחפשת אותה כבר 11 שנה.» כלום. ואז המתווך פורץ בצחוק. «אנטוורפן!»</div><div class="refs">@cole-beirut @maya-beirut @middleman @beirut-warehouse</div></div>
+  <div class="frame"><div class="ph"><div class="big">S15-C3</div><div>טרם נוצר · 18 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S16-C1" data-idx="36">
+  <div class="info"><div class="id">S16-C1</div><div class="meta">סצנה 16 · 22 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">חוץ. ביירות — רחוב — יום</h2><div class="beats">הולכים. מאיה מדליקה סיגריה ולא מעשנת. «זה היה טיפשי.» / «זה היה מספר סידורי. אצווה 441. אותה אחת מהרשימה.» היא נעצרת. «שיננת שמונה ספרות ממסך הבוקר.» / «את לא?» כמעט מחייכת, ממשיכה.</div><div class="refs">@cole-beirut @maya-beirut @beirut-street</div></div>
+  <div class="frame"><div class="ph"><div class="big">S16-C1</div><div>טרם נוצר · 22 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S17-C1" data-idx="37">
+  <div class="info"><div class="id">S17-C1</div><div class="meta">סצנה 17 · 12 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — לילה</h2><div class="beats">על המסך פס סטטוס ירוק (הכיתוב &#x27;אצווה 441 — מאומתת. שלמה.&#x27; מתווסף בפוסט). «חמישי. שלוש אחר הצהריים. כולם ביחד.» / «כולם ביחד.» / «תשאלי אותי בשישי אם ישנתי.»</div><div class="note">⚠️ טקסט על מסך = פוסט. בפרומפט: פס ירוק בלי תווים.</div><div class="refs">@warroom @dado @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S17-C1</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S18-C1" data-idx="38">
+  <div class="info"><div class="id">S18-C1</div><div class="meta">סצנה 18 · 20 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">פנים/חוץ. לבנון — מונטאז&#x27; / מכתש — «שלח»</h2><div class="beats">אחר צהריים רגיל בעשרה מקומות רגילים: שוק, חדר מדרגות, אוטו חונה, גבר על ספסל. בכל פריים, איפשהו, ביפר שחור קטן על חגורה. 8 שוטים של ~2.5 שניות.</div><div class="refs">@pager @beirut-street</div></div>
+  <div class="frame"><div class="ph"><div class="big">S18-C1</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S18-C2" data-idx="39">
+  <div class="info"><div class="id">S18-C2</div><div class="meta">סצנה 18 · 8 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c98a3a">ביירות</span></div>
+    <h2 class="title">פנים/חוץ. לבנון — מונטאז&#x27; / מכתש — «שלח»</h2><div class="beats">מכתש — היד של תומר על המקלדת. דדו מהנהן פעם אחת. «שלח.»</div><div class="refs">@warroom @tomer @dado</div></div>
+  <div class="frame"><div class="ph"><div class="big">S18-C2</div><div>טרם נוצר · 8 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S19-C1" data-idx="40">
+  <div class="info"><div class="id">S19-C1</div><div class="meta">סצנה 19 · 20 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — קומת מבצעים — יום</h2><div class="beats">קיר סטטוסים ירוק. ואזירי עומד, ידיים מאחורי הגב. נורה אחת מתחלפת לאדום. ואז 11. ואז 100. הקיר נצבע באדום מהר יותר מהעין — רשת שלמה שמתה בזמן אמת. החדר מתפוצץ סביבו. ואזירי לא זז.</div><div class="note">⚠️ מבצע הביפרים כולו דרך נורות ותגובות — אפס פיצוצים על המסך (קולנוע + מסנן).</div><div class="refs">@iran-ops @vaziri @aide</div></div>
+  <div class="frame"><div class="ph"><div class="big">S19-C1</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S20-C1" data-idx="41">
+  <div class="info"><div class="id">S20-C1</div><div class="meta">סצנה 20 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — מסדרון — מאוחר יותר</h2><div class="beats">שקט. זכוכית שבורה מטואטאת לפינה. העוזר מחזיק ביפר שרוף בשקית. ואזירי מוציא, מסובב, מקרב לאף ומריח. «אני חתמתי על זה.» / «גנרל—» / «אני חתמתי. לפני 11 שבועות. הבאתי להם את זה בדיוק כדי שיהיו בטוחים.» מחזיר את השקית בעדינות.</div><div class="refs">@vaziri @aide @iran-ops @pager</div></div>
+  <div class="frame"><div class="ph"><div class="big">S20-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S20-C2" data-idx="42">
+  <div class="info"><div class="id">S20-C2</div><div class="meta">סצנה 20 · 12 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — מסדרון — מאוחר יותר</h2><div class="beats">«מישהו עמד במחסן ההוא וקרא מספר סידורי. לא קונה. אדם.» / «אנחנו בודקים כל—» / «הייתה רוח רפאים בביירות. תביאו לי אותה.»</div><div class="refs">@vaziri @aide @iran-ops</div></div>
+  <div class="frame"><div class="ph"><div class="big">S20-C2</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S21-C1" data-idx="43">
+  <div class="info"><div class="id">S21-C1</div><div class="meta">סצנה 21 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר אוכל — לילה</h2><div class="beats">לא חגיגה — משהו שקט ומוזר. קפה, דיבור נמוך, כמה בוכים ומעמידים פנים שלא. תומר מניח כוס מול קול בלי שביקש, מתיישב. «אח שלי בצפון. מאוקטובר הוא ישן עם הנעליים.» / «והלילה?» / «הלילה התקשרתי אליו. הוא חלץ אותן.» קול מסתכל על הכוס. «זו כל העבודה. בדיוק זה.»</div><div class="refs">@cole @tomer @corridor</div></div>
+  <div class="frame"><div class="ph"><div class="big">S21-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S21-C2" data-idx="44">
+  <div class="info"><div class="id">S21-C2</div><div class="meta">סצנה 21 · 18 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר אוכל — לילה</h2><div class="beats">«אתה עושה את זה הרבה זמן?» / «18 שנה.» / «ומה יש לך בבית?» רגע ארוך מדי. «דירה.» תומר מבין שהוא שאל משהו לא נכון, ולא יודע מה.</div><div class="refs">@cole @tomer @corridor</div></div>
+  <div class="frame"><div class="ph"><div class="big">S21-C2</div><div>טרם נוצר · 18 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S22-C1" data-idx="45">
+  <div class="info"><div class="id">S22-C1</div><div class="meta">סצנה 22 · 30 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — לילה</h2><div class="beats">דדו נכנס מהר. «סנדפייפר שידר לפני 11 דקות. יש חלון בחאן יונס. חטופים, קומה תחתונה, מעבירים אותם בעוד 72 שעות.» המסך מתמלא בפנים ושמות — ימי הולדת, חופים, טקס סיום. מאיה מקריאה שמות בקול, דדו רושם, החדר עובד.</div><div class="note">⚠️ מאיה מקריאה את השמות בקול (כולל &#x27;שריד, נועה, 24&#x27;) — במקום טקסט קריא על המסך.</div><div class="refs">@warroom @dado @maya @tomer @cole</div></div>
+  <div class="frame"><div class="ph"><div class="big">S22-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S22-C2" data-idx="46">
+  <div class="info"><div class="id">S22-C2</div><div class="meta">סצנה 22 · 15 שנ׳ · מערכה ראשונה — הירידה<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — לילה</h2><div class="beats">קול נעצר. קלוז: פנים אחת — בחורה צוחקת על דשא. החדר ממשיך לזוז סביבו; הוא לא. «מרסר. אתה איתנו?» / «אני איתכם.»</div><div class="note">⚠️ @photo = הדפס/תמונה קיימת — לשכפל בדיוק; @noa מצורפת כאישור לפנים שבתמונה.</div><div class="refs">@cole @photo @noa @warroom @maya @hostage-board</div></div>
+  <div class="frame"><div class="ph"><div class="big">S22-C2</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S23-C1" data-idx="47">
+  <div class="info"><div class="id">S23-C1</div><div class="meta">סצנה 23 · 30 שנ׳ · מסגרת · 2<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«רגע. אמרת &#x27;אני איתכם&#x27;.» / «כן.» / «ראית שם על מסך והשקר הראשון שלך יצא תוך שנייה וחצי.» / «זה לא היה שקר. הייתי איתם.» / «קול.» שתיקה. «נועה שריד היא הנכדה של אח של אמא שלי.»</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S23-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S23-C2" data-idx="48">
+  <div class="info"><div class="id">S23-C2</div><div class="meta">סצנה 23 · 30 שנ׳ · מסגרת · 2<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«פגשת אותה פעם?» / «לא.» / «דיברת איתה פעם?» / «לא.» / «אז למה לא הצהרת?» / «כי אם הייתי מצהיר, תוך ארבע שעות היו מוציאים אותי מהחדר ומכניסים מישהו שקורא תמלילים במקום להיות בשטח. וזה היה עולה בזמן. במבצע כזה זמן זה אנשים.»</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S23-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S23-C3" data-idx="49">
+  <div class="info"><div class="id">S23-C3</div><div class="meta">סצנה 23 · 15 שנ׳ · מסגרת · 2<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«זו תשובה יפה מאוד.» / «זו האמת.» / «אני מאמינה לך. אני גם חושבת שזו לא כל האמת. תמשיך.»</div><div class="refs">@cole-civilian @barel @clinic</div></div>
+  <div class="frame"><div class="ph"><div class="big">S23-C3</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S24-C1" data-idx="50">
+  <div class="info"><div class="id">S24-C1</div><div class="meta">סצנה 24 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר תכנון — יום</h2><div class="beats">דגם רחוב בחאן יונס, מנהרות בסרט אדום על הרצפה (שולחן צד בחדר המלחמה). «שני צוותי כניסה. פיר פה, פיר פה. שמונה דקות על המטרה.» / «אני יוצא עם הכוח.» הכול נעצר. «אתה משקיף. זה כל מה שאתה פה.» / «השרטוט של פיר שתיים הוא ניחוש ואתה יודע את זה. שנתיים מיפיתי מנהרות מתחת למוסול. אני יודע לזהות קיר כפול לפי הצליל.»</div><div class="note">⚠️ אין אלמנט &#x27;חדר תכנון&#x27; — משחקים על שולחן דגם בחדר המלחמה (@warroom). אין צורך בנכס חדש.</div><div class="refs">@warroom @dado @cole @maya @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S24-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S24-C2" data-idx="51">
+  <div class="info"><div class="id">S24-C2</div><div class="meta">סצנה 24 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר תכנון — יום</h2><div class="beats">«כל קצין בחדר הזה היה מתחת לאדמה מאוקטובר.» / «אז עוד אחד לא יזיק.» דדו נועץ מבט. «למה אתה רוצה את זה?» / «כי אני מביא תוצאות.» תשובה טובה, לא התשובה — מאיה שומעת את ההבדל. «פיר שתיים. אתה אחרי אדר. אתה לא נוגע בכלום.»</div><div class="refs">@warroom @dado @cole @maya @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S24-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S25-C1" data-idx="52">
+  <div class="info"><div class="id">S25-C1</div><div class="meta">סצנה 25 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מסדרון הנשקייה — לילה</h2><div class="beats">קול על ספסל ציוד, ידיים עובדות על הכלי. מאיה נשענת על הקיר. «שיקרת לו.» / «אמרתי שאני מביא תוצאות.» / «אמרת משפט נכון במקום תשובה. אצלנו זה נקרא שקר.» הוא ממשיך לעבוד. היא מחכה. הוא עוצר. «אמא שלי נולדה פה.»</div><div class="note">⚠️ הרובה = &#x27;ציוד על הספסל, הידיים עובדות&#x27; — הכלי לא במרכז הפריים (מסנן).</div><div class="refs">@cole-field @maya-field @corridor</div></div>
+  <div class="frame"><div class="ph"><div class="big">S25-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S25-C2" data-idx="53">
+  <div class="info"><div class="id">S25-C2</div><div class="meta">סצנה 25 · 22 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מסדרון הנשקייה — לילה</h2><div class="beats">מאיה לא מגיבה — היא טובה מאוד. «ו...?» / «ובשנת 74&#x27; היא עזבה ולא אמרה את המילה &#x27;ישראל&#x27; בקול אף פעם. 38 שנה.» / «איך גילית?» / «מעורך דין. אחרי שהיא מתה.» / «זה כל הסיפור?» / «זה החלק שאני יודע להגיד.» «תישאר מאחוריי שם למטה.»</div><div class="refs">@cole-field @maya-field @corridor</div></div>
+  <div class="frame"><div class="ph"><div class="big">S25-C2</div><div>טרם נוצר · 22 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S26-C1" data-idx="54">
+  <div class="info"><div class="id">S26-C1</div><div class="meta">סצנה 26 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#8a8a8a">עזה</span></div>
+    <h2 class="title">חוץ/פנים. מנהרות עזה — לילה</h2><div class="beats">הריסות עד האופק. פתח פיר שחור. בפנים: צר, רטוב, בטון וברזלים, לוק של כוונת לילה, כל נשימה נשמעת. קול עוצר, יד על הקיר, דופק, מקשיב. «קיר כפול. שני מטר אחורה.» פורצים אותו — מאחוריו מנהרה שאף אחד לא סימן.</div><div class="refs">@cole-field @maya-field @tunnels</div></div>
+  <div class="frame"><div class="ph"><div class="big">S26-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S26-C2" data-idx="55">
+  <div class="info"><div class="id">S26-C2</div><div class="meta">סצנה 26 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#8a8a8a">עזה</span></div>
+    <h2 class="title">חוץ/פנים. מנהרות עזה — לילה</h2><div class="beats">דלת פלדה. מטענים. הדלת מתעופפת פנימה בקיר אבק. עשן, צעקות, שתי דמויות נעלמות בעשן. חדר בטון קטן: ארבעה אנשים על הרצפה שלא ראו אור יום 125 יום. חיילים על הברכיים, עוטפים אותם, בוכים תוך כדי עבודה. חייל: «אנחנו לוקחים אתכם הביתה.»</div><div class="note">⚠️ הקליפ הכי רגיש למסנן בסרט — לנסח דרך אבק/אור/תגובות. חיילים וחטופים גנריים, בלי פנים מרופרנסות.</div><div class="refs">@cole-field @maya-field @tunnels</div></div>
+  <div class="frame"><div class="ph"><div class="big">S26-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S27-C1" data-idx="56">
+  <div class="info"><div class="id">S27-C1</div><div class="meta">סצנה 27 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#8a8a8a">עזה</span></div>
+    <h2 class="title">פנים. מנהרה — אגף התאים — רציף</h2><div class="beats">קול ממשיך פנימה. עוד דלת, פתוחה. תא שני — ריק. שני מזרנים, שרשרת, בקבוק חצי שתוי. כורע, גב היד למזרן. «עוד חם.» / «כמה זמן?» / «שעות. אולי פחות.» על הקיר, חרוט בבטון: ספירת ימים ומתחתיה שלוש אותיות. «מרסר. זזים.» הוא לא זז. «מרסר.»</div><div class="note">⚠️ האותיות בבטון: לבנות כתמונת רפרנס (PIL) או להשלים בפוסט — לא לתאר במילים.</div><div class="refs">@cole-field @maya-field @tunnels</div></div>
+  <div class="frame"><div class="ph"><div class="big">S27-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S28-C1" data-idx="57">
+  <div class="info"><div class="id">S28-C1</div><div class="meta">סצנה 28 · 20 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — שחר</h2><div class="beats">ארבע פנים עוברות מאדום לירוק. 11 נשארות אדומות — הבחורה על הדשא ביניהן. אף אחד לא מריע. «העבירו אותם שמונה שעות לפני שנכנסנו. זאת אומרת שמישהו ידע.» / «או שמישהו ניחש.» / «אף אחד לא מנחש ככה.»</div><div class="refs">@warroom @dado @tomer @photo @cole @hostage-board</div></div>
+  <div class="frame"><div class="ph"><div class="big">S28-C1</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S29-C1" data-idx="58">
+  <div class="info"><div class="id">S29-C1</div><div class="meta">סצנה 29 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — חדר ניתוח — יום</h2><div class="beats">קיר של סטילים קפואים ממצלמות אבטחה, ביירות. ואזירי הולך לאורכו לאט. «עצור. את זאת.» בית הקפה, זוג אירופאי, הגבר מושיט יד לתיקייה — האמה מסתובבת החוצה. «תגדיל את הזרוע.» צלקת ישנה, מדויקת, של ניתוח. «כל אמריקאי שטופל בלנדשטול בין 2011 ל-2014 בשחזור אמה שמאלית. פצועי כוחות מיוחדים מצולמים לתיק. תיקים נשמרים בארכיון. ארכיונים נמכרים.»</div><div class="note">⚠️ הסטיל על המסך = צילום אבטחה מטושטש של זוג גנרי; הזום = תקריב של אמה בלבד. לא להצמיד את קול ומאיה.</div><div class="refs">@vaziri @aide @iran-ops</div></div>
+  <div class="frame"><div class="ph"><div class="big">S29-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S29-C2" data-idx="59">
+  <div class="info"><div class="id">S29-C2</div><div class="meta">סצנה 29 · 12 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — חדר ניתוח — יום</h2><div class="beats">«גנרל, זה יכול להיות אלף איש.» / «זה 406. כבר שאלתי.»</div><div class="refs">@vaziri @aide @iran-ops</div></div>
+  <div class="frame"><div class="ph"><div class="big">S29-C2</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S30-C1" data-idx="60">
+  <div class="info"><div class="id">S30-C1</div><div class="meta">סצנה 30 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">קול על הרצפה, גב למיטה, הארון פתוח, המעטפה הסגורה בידיים. דפיקה. מאיה, בקבוק ושתי כוסות שלא מתאימות. היא רואה את המעטפה; הוא לא מזיז אותה. «ממי?» / «מאמא שלי.» / «מה כתוב?» / «אני לא יודע.» / «איך אתה לא יודע?» / «כי היא סגורה.»</div><div class="note">הסצנה הארוכה בסרט (~2:50). 6 קליפים, כולם באותו חדר ובאותה תאורה — שרשור וידאו-רפרנס בין הקליפים.</div><div class="refs">@cole @maya @cole-room @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S30-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S30-C2" data-idx="61">
+  <div class="info"><div class="id">S30-C2</div><div class="meta">סצנה 30 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">מתיישבת לידו על הרצפה, מוזגת. «כמה זמן היא אצלך?» / «שלוש שנים.» שתיקה ארוכה — היא לא אומרת את הדבר המתבקש. «בעלי נהרג בפברואר. בצפון. טיל אחד, שתיים בלילה, בלי אזעקה.» / «אני מצטער.» / «כולם מצטערים. ככה זה פה.» שותים.</div><div class="note">הסצנה הארוכה בסרט (~2:50). 6 קליפים, כולם באותו חדר ובאותה תאורה — שרשור וידאו-רפרנס בין הקליפים.</div><div class="refs">@cole @maya @cole-room @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S30-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S30-C3" data-idx="62">
+  <div class="info"><div class="id">S30-C3</div><div class="meta">סצנה 30 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">«לא הספקתי להיפרד. אנשים אומרים לי שזה נורא. זה נורא. אבל לפעמים אני חושבת שזה גם רחמים.» / «למה?» / «כי לא נתנו לי הזדמנות להיכשל בזה.» הוא מסתכל על הכוס. «לי נתנו.» / «מה?» / «הזדמנות.»</div><div class="note">הסצנה הארוכה בסרט (~2:50). 6 קליפים, כולם באותו חדר ובאותה תאורה — שרשור וידאו-רפרנס בין הקליפים.</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S30-C3</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S30-C4" data-idx="63">
+  <div class="info"><div class="id">S30-C4</div><div class="meta">סצנה 30 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">«אשתי מתה לפני ארבע שנים. סרטן הלבלב. 11 חודשים מהאבחנה.» / «קול—» / «הייתי בחו&quot;ל שבעה מתוכם.» מאיה לא זזה. «היא אמרה לי לקחת את המשימות. אמרה שהיא לא רוצה שאני יושב בחדר ומסתכל עליה. אמרה שזה יהרוג אותה מהר יותר.» / «והאמנת לה.»</div><div class="note">הסצנה הארוכה בסרט (~2:50). 6 קליפים, כולם באותו חדר ובאותה תאורה — שרשור וידאו-רפרנס בין הקליפים.</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S30-C4</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S30-C5" data-idx="64">
+  <div class="info"><div class="id">S30-C5</div><div class="meta">סצנה 30 · 30 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">«האמנתי לה. כי זה מה שרציתי להאמין.» שתיקה. «ועד היום אני לא יודע אם היא באמת התכוונה, או שהיא פתחה לי דלת ואני יצאתי ממנה.» אינסרט ידיים בלבד: היד שלה על היד שלו, האגודל על קו הצלקת. «ומאז אתה לא עוצר.» / «אם אני עוצר, אני יושב בחדר. אז אני לא עוצר.»</div><div class="note">⚠️ המגע = שוט ידיים בלי פנים (לקח: שתי דמויות מרופרנסות נוגעות רק בקאט/בידיים).</div><div class="note">הסצנה הארוכה בסרט (~2:50). 6 קליפים, כולם באותו חדר ובאותה תאורה — שרשור וידאו-רפרנס בין הקליפים.</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S30-C5</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S30-C6" data-idx="65">
+  <div class="info"><div class="id">S30-C6</div><div class="meta">סצנה 30 · 20 שנ׳ · מערכה שנייה — רוח הרפאים<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">היא לא מרפה. «תפתח את המכתב.» / «לא.» / «למה?» / «כי כל עוד הוא סגור, היא עוד לא סיימה לדבר איתי.»</div><div class="note">הסצנה הארוכה בסרט (~2:50). 6 קליפים, כולם באותו חדר ובאותה תאורה — שרשור וידאו-רפרנס בין הקליפים.</div><div class="refs">@cole @maya @cole-room @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S30-C6</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S31-C1" data-idx="66">
+  <div class="info"><div class="id">S31-C1</div><div class="meta">סצנה 31 · 30 שנ׳ · מסגרת · 3<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">המעטפה על השולחן בין הכיסאות, סגורה. «אתה סוחב את זה שלוש שנים.» / «כן.» / «דרך שלושה אזורי לחימה.» / «ארבעה.» / «יכולת לזרוק אותו. יכולת להשאיר אותו בדירה. לא עשית.» / «לא.» / «אז אתה לא בורח ממנו. אתה שומר עליו.» קול לא עונה. «ממה אתה מפחד שכתוב שם?» / «אני לא מפחד.» / «קול.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S31-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S31-C2" data-idx="67">
+  <div class="info"><div class="id">S31-C2</div><div class="meta">סצנה 31 · 30 שנ׳ · מסגרת · 3<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">שתיקה ארוכה. «שהיא הסבירה.» / «הסבירה מה?» / «למה היא לא סיפרה לי. 38 שנה היא לא אמרה מאיפה היא. אם היא כתבה שם למה — אז יש סיבה. וסיבה זה משהו שאפשר לבדוק, ולהתווכח איתו, ולהחליט אם הוא מספיק טוב.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S31-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S31-C3" data-idx="68">
+  <div class="info"><div class="id">S31-C3</div><div class="meta">סצנה 31 · 30 שנ׳ · מסגרת · 3<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«ואם הוא לא מספיק טוב?» / «אז היא שיקרה לי כל החיים ואין לי למי להגיד את זה.» בראל לא זזה. «ואם היא בכלל לא הסבירה? אם כתוב שם משהו אחר לגמרי?» / «אז גם זה. אז זה נגמר. אז אין יותר.» מסתכל על המעטפה. «כל עוד היא סגורה, יש עוד משהו לפתוח.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S31-C3</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S31-C4" data-idx="69">
+  <div class="info"><div class="id">S31-C4</div><div class="meta">סצנה 31 · 30 שנ׳ · מסגרת · 3<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«אתה שומע מה אמרת עכשיו?» הוא לא עונה. «אתה מחזיק אישה מתה בחיים בתוך מעטפה, ואתה עושה בדיוק אותו דבר עם אשתך כשאתה לא עוצר לרגע. שתי הדלתות סגורות, קול. אתה עומד במסדרון כבר ארבע שנים.» הוא לא זז — אבל משהו בכתפיים יורד.</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S31-C4</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S31-C5" data-idx="70">
+  <div class="info"><div class="id">S31-C5</div><div class="meta">סצנה 31 · 15 שנ׳ · מסגרת · 3<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«תמשיך. מה קרה אחרי הלילה הזה?» / «אחרי הלילה הזה ואזירי הרס אותי.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S31-C5</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S32-C1" data-idx="71">
+  <div class="info"><div class="id">S32-C1</div><div class="meta">סצנה 32 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — המשרד של ואזירי — לילה</h2><div class="beats">תיק פתוח: תמונת שירות — קול צעיר יותר במדים; מאחוריה רישום הגירה; מאחוריו אילן יוחסין ביד, קו אחד יורד לשם מוקף פעמיים. ואזירי מסתכל הרבה זמן. סוגר את ספר השירה. «הוא בא בשביל בחורה.»</div><div class="note">⚠️ @file מכיל טקסט מודפס — לצלם בזווית משופעת, מיקוד על התצלום בלבד; הכיתובים מחוץ למיקוד (השלמה בפוסט אם צריך). @cole מצורף כאישור לפנים שבתצלום.</div><div class="refs">@vaziri @aide @vaziri-office @file @cole</div></div>
+  <div class="frame"><div class="ph"><div class="big">S32-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S32-C2" data-idx="72">
+  <div class="info"><div class="id">S32-C2</div><div class="meta">סצנה 32 · 12 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. דירקטורט 9 — המשרד של ואזירי — לילה</h2><div class="beats">«שנשתמש בזה, גנרל? אדם כזה ייתן הכול תמורת—» / «לא. אם הוא שלי, יש לי אדם אחד.» דוחף את התיק על השולחן. «תשלחו את זה אליהם. בלי חתימה. שהם ישברו אותו במקומי.»</div><div class="refs">@vaziri @aide @vaziri-office @file</div></div>
+  <div class="frame"><div class="ph"><div class="big">S32-C2</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S33-C1" data-idx="73">
+  <div class="info"><div class="id">S33-C1</div><div class="meta">סצנה 33 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">דדו בראש השולחן, התיק עליו, מאיה חיוורת, כל המסכים כבויים. «תגיד את השם שלה.» / «המפקד—» / «תגיד את השם שלה.» / «נועה שריד.» / «ומה היא בשבילך?» / «הנכדה של אח של אמא שלי.» / «נכנסת למנהרה בחאן יונס עם אינטרס אישי ברשימה ולא הצהרת. ישבת בחדר שלי שישה שבועות.»</div><div class="note">⚠️ חדר המלחמה עם מסכים כבויים — &#x27;dim but READABLE&#x27; (לקח FIX-01: לא להחשיך את הלוקיישן).</div><div class="refs">@warroom @dado @cole @maya @tomer @file</div></div>
+  <div class="frame"><div class="ph"><div class="big">S33-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S33-C2" data-idx="74">
+  <div class="info"><div class="id">S33-C2</div><div class="meta">סצנה 33 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">«המודיעין היה אמיתי. כל מילה בו.» / «וכל מילה בו צריכה עכשיו בדיקה מחדש, על ידי אנשים שכבר לא סומכים על מי שהביא אותה. זה מה שעלית לי. לא סוד. זמן.» אוסף את התיק. «לחדר שלך. נשק על השולחן. וושינגטון כבר יודעת.» קול מניח את הנרתיק על השולחן. מסתכל על מאיה. היא מסתכלת ישר קדימה.</div><div class="refs">@warroom @dado @cole @maya @tomer @file</div></div>
+  <div class="frame"><div class="ph"><div class="big">S33-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S34-C1" data-idx="75">
+  <div class="info"><div class="id">S34-C1</div><div class="meta">סצנה 34 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">נעול. שני שומרים בחוץ. הדלת נפתחת — מאיה. «שישה שבועות.» / «כן.» / «ישבתי איתך על הרצפה הזאת. סיפרתי לך על בעלי. ואתה הראית לי מעטפה סגורה ושתקת על כל השאר.» / «אם הייתי מצהיר, היו מושיבים אותי מאחורי שולחן בווירג&#x27;יניה. וחלון החטופים היה עובר שש שכבות של בירוקרטיה במקום דרכי.»</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S34-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S34-C2" data-idx="76">
+  <div class="info"><div class="id">S34-C2</div><div class="meta">סצנה 34 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">«ארבעה אנשים יצאו מהחור הזה, מאיה. ארבעה.» / «והיית עושה את זה שוב.» / «הייתי עושה את זה שוב.» היא מתיישבת, פתאום עייפה. «אתה יודע מה אף אחד פה לא יגיד לך? לחצי מהאנשים בהר הזה יש שם על הלוח ההוא. בן דוד של תומר. הבן של השכן של דדו. שלי — בחורה שהתאמנתי איתה ב-98&#x27;.»</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S34-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S34-C3" data-idx="77">
+  <div class="info"><div class="id">S34-C3</div><div class="meta">סצנה 34 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">היא מרימה מבט. «פה כולם משפחה של מישהו. זו לא החולשה שלך, קול. זה הדבר היחיד בך שאי פעם באמת האמנתי בו.» / «אז למה את כועסת?» / «כי לא סיפרת לי. לא כי הסתרת ממנו. כי הסתרת ממני.»</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S34-C3</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S34-C4" data-idx="78">
+  <div class="info"><div class="id">S34-C4</div><div class="meta">סצנה 34 · 20 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — מגורי קול — לילה</h2><div class="beats">אינסרט ידיים: היא לוקחת את היד שלו — האמה עם הצלקת. «הוא מצא אותך דרך זה.» / «כן.» / «אז הוא רצה שנעשה בדיוק את מה שעשינו עכשיו.» ההבנה נופלת על שניהם באותו רגע.</div><div class="refs">@cole @maya @cole-room</div></div>
+  <div class="frame"><div class="ph"><div class="big">S34-C4</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S35-C1" data-idx="79">
+  <div class="info"><div class="id">S35-C1</div><div class="meta">סצנה 35 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — לילה</h2><div class="beats">אזעקות. תומר עומד, אוזניות בידיים. «סנדפייפר נעלם.» / «נעלם איך?» / «שידור אחרון לפני 90 דקות, באמצע משפט. ואז שידור בטלוויזיה הממלכתית. אמרו את השם שלו. הראו אותו.» המסך: אדם על כיסא, הודאה שאף אחד לא מאמין לה, חיתוך לשחור. קול מסתכל על הפנים של פארוק. «אנחנו עיוורים בטהרן.»</div><div class="note">⚠️ @farrokh מצורף בשביל הפנים שעל המסך בלבד — &#x27;appears ONLY on the screen&#x27;.</div><div class="refs">@warroom @tomer @dado @cole @maya @farrokh</div></div>
+  <div class="frame"><div class="ph"><div class="big">S35-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S36-C1" data-idx="80">
+  <div class="info"><div class="id">S36-C1</div><div class="meta">סצנה 36 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — עמדת סיגינט — לילה</h2><div class="beats">מאיה מכניסה את קול — בלי שומרים, בלי רשות. תומר מאט את השידור האחרון. «11 שניות. הוא ידע שהם על המדרגות. הוא לא שלח אזהרה — הוא שלח את זה.» אודיו מסונן: «— סדנת בנדר. ה-19. זה לא מתקן, זה מתחת ל—» נקטע.</div><div class="note">⚠️ בזמן ההשמעה אף אחד בפריים לא מדבר — פיות סגורים (לקח off-frame).</div><div class="refs">@warroom @tomer @cole @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S36-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S36-C2" data-idx="81">
+  <div class="info"><div class="id">S36-C2</div><div class="meta">סצנה 36 · 12 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — עמדת סיגינט — לילה</h2><div class="beats">«ה-19 זה בעוד ארבעה ימים.» / «&#x27;זה מתחת ל—&#x27; מתחת למה?» קול מרים מבט אל 90 המטרים של סלע מעל הראש. «הם למדו את זה ממישהו.»</div><div class="refs">@warroom @tomer @cole @maya</div></div>
+  <div class="frame"><div class="ph"><div class="big">S36-C2</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S37-C1" data-idx="82">
+  <div class="info"><div class="id">S37-C1</div><div class="meta">סצנה 37 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — המשרד של דדו — לילה</h2><div class="beats">דף על השולחן (צו החזרה — הכיתוב מחוץ למיקוד). קול נכנס בלי לדפוק, מרים, קורע לשניים, מניח את החצאים בצורה מסודרת. «זו הייתה פקודה חוקית מהממשלה שלך.» / «נכון. פארוק מת כי ואזירי מנקה את השולחן לפני ה-19. הוא שרף את המקור שלי ושרף אותי, באותו שבוע, באותה יד. הוא ארבעה ימים ממשהו.»</div><div class="note">⚠️ אין אלמנט &#x27;המשרד של דדו&#x27; — לשחק בחדר המלחמה הריק בלילה, מסכים כבויים (חוסך נכס חדש).</div><div class="refs">@warroom @dado @cole</div></div>
+  <div class="frame"><div class="ph"><div class="big">S37-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S37-C2" data-idx="83">
+  <div class="info"><div class="id">S37-C2</div><div class="meta">סצנה 37 · 30 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — המשרד של דדו — לילה</h2><div class="beats">«ואתה מצפה שאחזיר אותך לשטח.» / «אני מצפה שתעצור אותי ב-20.» רגע. «הלילה אתה צריך אותי.» דדו מסתכל על הנייר הקרוע, על קול. «למה אתה עושה את זה?» / «כי אין לי לאן ללכת.» הפעם הראשונה שהוא אומר משפט אמיתי בקול.</div><div class="refs">@warroom @dado @cole</div></div>
+  <div class="frame"><div class="ph"><div class="big">S37-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S37-C3" data-idx="84">
+  <div class="info"><div class="id">S37-C3</div><div class="meta">סצנה 37 · 12 שנ׳ · מערכה שנייה (המשך)<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — המשרד של דדו — לילה</h2><div class="beats">דדו מהנהן לאט. «אדר. כרים. אתה. אף אחד אחר, שום דבר בכתב. אם תיתפס — מעולם לא היית בהר שלי.» / «מובן.» / «נוסעים לטהרן.»</div><div class="refs">@warroom @dado @cole</div></div>
+  <div class="frame"><div class="ph"><div class="big">S37-C3</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S38-C1" data-idx="85">
+  <div class="info"><div class="id">S38-C1</div><div class="meta">סצנה 38 · 20 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — האנגר — לילה</h2><div class="beats">ברזנטים יורדים, עגלות חימוש, עיר מתחת למדבר מתעוררת בבת אחת. קול, מאיה וכרים מתחמשים ליד מסוק שחור — בגדים אזרחיים מעל שכפ&quot;צים. «אתה האמריקאי.» / «כולם ממשיכים להגיד את זה.» / «בטהרן, אל תיתן להם.»</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @hangar @helicopter</div></div>
+  <div class="frame"><div class="ph"><div class="big">S38-C1</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S39-C1" data-idx="86">
+  <div class="info"><div class="id">S39-C1</div><div class="meta">סצנה 39 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — לילה</h2><div class="beats">דדו במרכז חדר שרץ במלוא הקצב. «הגל הראשון חוצה בשתיים. הגנה אווירית, מכ&quot;מים, פיקוד. אתר בנדר נמצא מתחת ל-60 מטר סלע — פצצות לבד לא יגיעו לשם. צריך עיניים על הקרקע שיסמנו את פיר האוורור.» / «שמונה דקות סימון. מינימום.» / «שמונה דקות על הקרקע בטהרן.» הוא מסתכל על שלוש הדמויות במסך מההאנגר.</div><div class="refs">@warroom @dado @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S39-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S40-C1" data-idx="87">
+  <div class="info"><div class="id">S40-C1</div><div class="meta">סצנה 40 · 12 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#4fa3b8">אוויר</span></div>
+    <h2 class="title">חוץ. שמי איראן — לילה</h2><div class="beats">מטוסים במבנה על שמיים שחורים. למטה אתר מכ&quot;ם נדלק באור לבן. ואז שני. ואז שורה שלמה לרוחב האופק — כאילו מישהו מסמן גבול באור.</div><div class="note">⚠️ בלי רפרנסים. פריחות אור באופק, בלי פיצוצים גרפיים.</div><div class="refs">—</div></div>
+  <div class="frame"><div class="ph"><div class="big">S40-C1</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S41-C1" data-idx="88">
+  <div class="info"><div class="id">S41-C1</div><div class="meta">סצנה 41 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. טהרן — דירת מסתור — לילה</h2><div class="beats">דירה צפופה מעל מוסך. כרים בחלון; רעם רחוק שהוא לא רעם; צפירות עולות. קול מחזק סוללה במכשיר הסימון, מאיה בודקת ציוד בלי להסתכל עליו. «אם אני לא חוזרת—» / «אל.» / «אם לא, אני רוצה שיהיה רשום איפשהו שנתתי לאמריקאי לישון בהר שלי ושהייתי עושה את זה שוב.» / «תכתבי את זה. אני אחתום כעד.» היא צוחקת — הצחוק האמיתי הראשון בסרט. ואז הוא נעצר.</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @safehouse @designator</div></div>
+  <div class="frame"><div class="ph"><div class="big">S41-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S41-C2" data-idx="89">
+  <div class="info"><div class="id">S41-C2</div><div class="meta">סצנה 41 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">פנים. טהרן — דירת מסתור — לילה</h2><div class="beats">«קול. תפתח את המכתב כשנחזור.» / «למה דווקא עכשיו?» / «כי אני רוצה שיהיה לך משהו לחזור בשבילו שהוא לא עוד משימה.» היא לוקחת את הפנים שלו בשתי ידיים ומנשקת אותו פעם אחת, חזק וקצר — בצללית מול החלון / ידיים על הפנים ב-ECU. «עכשיו זה רשום.» כרים בלי להסתובב: «שתי דקות.»</div><div class="note">⚠️ הנשיקה = שתי דמויות מרופרנסות במגע. פתרון: צללית מול החלון + ECU ידיים על לחי, הפנים לא בפריים אחד חד.</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @safehouse</div></div>
+  <div class="frame"><div class="ph"><div class="big">S41-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S42-C1" data-idx="90">
+  <div class="info"><div class="id">S42-C1</div><div class="meta">סצנה 42 · 20 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. רכס מעל אתר בנדר — לילה</h2><div class="beats">המקום מהשנייה הראשונה של הסרט. מתחם תעשייתי בקערת גבעות, פיר אוורור חצוב בסלע. השלושה עוברים את הרכס בזחילה. קול מציב את מכשיר הסימון. מאיה סורקת את המגדלים — והפעם רואים לה את הפנים. כרים מאבטח. «מכתש, שתיים-אחת. בעמדה. מסמן.» / תומר (בקשר): «נעילה טובה. שמונה דקות.»</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @iran-site @designator</div></div>
+  <div class="frame"><div class="ph"><div class="big">S42-C1</div><div>טרם נוצר · 20 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S43-C1" data-idx="91">
+  <div class="info"><div class="id">S43-C1</div><div class="meta">סצנה 43 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. היקף בנדר — רציף</h2><div class="beats">ארבע דקות. משאית על הכביש הפנימי; הפנסים עוברים על הרכס — ונעצרים. צעקה. זרקור. ואז כל הגבעה היא רעש. כרים משיב אש מהתעלה; מאיה גוררת חצובה שנפגעה חזרה למקום. «תחזיקו את הנעילה!» / «שש דקות—» / «אין לנו שש דקות!» / «אז יש לנו חמש.» הוא נשכב על המכשיר, הופך את הגוף לחצובה, ידיים נעולות.</div><div class="note">⚠️ = סצנה 1 מזווית חדשה. הבזקי לוע, אבק, זרקור — בלי פגיעות על המסך.</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @iran-site @designator</div></div>
+  <div class="frame"><div class="ph"><div class="big">S43-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S44-C1" data-idx="92">
+  <div class="info"><div class="id">S44-C1</div><div class="meta">סצנה 44 · 25 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. אתר בנדר — לילה</h2><div class="beats">«חימוש שוחרר. 20 שניות.» קול לא זז. מאיה יורה מעל ראשו. כרים יורד לברך אחת וממשיך לעבוד. הגבעות נדלקות. הפצצה הראשונה נכנסת דרך פיר האוורור, ואז השנייה, ואז האדמה עצמה מתרוממת — רעד עמוק, אבק מתפרץ מכל פתח במתחם. איפשהו מתחת ל-60 מטר סלע, ה-19 מפסיק לקרות.</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @iran-site @designator</div></div>
+  <div class="frame"><div class="ph"><div class="big">S44-C1</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S45-C1" data-idx="93">
+  <div class="info"><div class="id">S45-C1</div><div class="meta">סצנה 45 · 15 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. טהרן — דרך הגבעה — לילה</h2><div class="beats">יורדים מהר, כרים ביניהם, אבק ופיח. «שני קילומטר. יש ואדי למטה—» היא מפסיקה ללכת. בתחתית הדרך: שלושה רכבים בקשת רפויה, פנסים כבויים, אנשים לידם לא ממהרים. ולפניהם, לבד, במעיל פשוט, בלי נשק — ואזירי.</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @vaziri-coat @iran-site</div></div>
+  <div class="frame"><div class="ph"><div class="big">S45-C1</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S46-C1" data-idx="94">
+  <div class="info"><div class="id">S46-C1</div><div class="meta">סצנה 46 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. דרך הגבעה — רציף</h2><div class="beats">שני גברים מסתכלים אחד על השני מעבר ל-40 מטר של עפר — הפעם הראשונה והיחידה. «רוח הרפאים.» קול שותק. «עלית לי ב-11 שנות עבודה בלילה אחד. הייתי אמור לכעוס. אני מגלה שאני בעיקר סקרן.» / «לגבי מה?» / «אם באת בשביל המדינה שלך או בשביל הבחורה.»</div><div class="note">⚠️ 40 מטר בין השניים — לעולם לא באותו קלוז. מצוין לזהות.</div><div class="refs">@vaziri-coat @cole-tehran @maya-tehran @karim-tehran @iran-site</div></div>
+  <div class="frame"><div class="ph"><div class="big">S46-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S46-C2" data-idx="95">
+  <div class="info"><div class="id">S46-C2</div><div class="meta">סצנה 46 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. דרך הגבעה — רציף</h2><div class="beats">רגע. «שניהם.» / «זו התשובה הנכונה. וזו גם הסיבה שבסוף אתה תפסיד. אדם עם שתי סיבות אפשר לפרק בדיוק בתפר.» / «כבר ניסית. זה לא החזיק.» / «נכון. לא החזיק.» כמעט מחייך — וזה הרגע. בשקט, לאנשיו: «חי. אני רוצה אותו חי.»</div><div class="refs">@vaziri-coat @cole-tehran @maya-tehran @karim-tehran @iran-site</div></div>
+  <div class="frame"><div class="ph"><div class="big">S46-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S47-C1" data-idx="96">
+  <div class="info"><div class="id">S47-C1</div><div class="meta">סצנה 47 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. דרך הגבעה — רציף</h2><div class="beats">הכול בשניות. כרים פותח באש מהתעלה; מאיה דוחפת את קול מהדרך; רכב נדלק ובוער. קול נלחם לכיוון הוואדי וגורר את כרים; מאיה מחפה, נסוגה, יורה זוגות מדויקים. רוטורים — מסוק החילוץ נכנס נמוך מעל הרכס. «מאיה! עכשיו!» היא מסתובבת לרוץ. ונעצרת. פשוט נעצרת. מסתכלת על עצמה למטה, כמעט מופתעת. ואז הברכיים מתקפלות.</div><div class="note">⚠️ הפגיעה לא נראית — רק העצירה, המבט למטה, הברכיים.</div><div class="refs">@cole-tehran @maya-tehran @karim-tehran @helicopter @iran-site</div></div>
+  <div class="frame"><div class="ph"><div class="big">S47-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S48-C1" data-idx="97">
+  <div class="info"><div class="id">S48-C1</div><div class="meta">סצנה 48 · 25 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#c25b5b">טהרן</span></div>
+    <h2 class="title">חוץ. ואדי — רציף</h2><div class="beats">קול עליה בשלוש פסיעות, ידיים לוחצות חזק. «לא. תסתכלי עליי. תסתכלי עליי.» / «קול—» / «את עולה על המסוק.» בקושי: «תחזיר אותה.» הוא מרים אותה. רץ. מאחוריו ואזירי עומד באור השרפה — לא נותן פקודה לרדוף. הוא כבר יודע במה הוא מסתכל.</div><div class="note">⚠️ בלי דם. &#x27;הידיים לוחצות, הבד כהה&#x27; — לא יותר.</div><div class="refs">@cole-tehran @maya-tehran @vaziri-coat @iran-site</div></div>
+  <div class="frame"><div class="ph"><div class="big">S48-C1</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S49-C1" data-idx="98">
+  <div class="info"><div class="id">S49-C1</div><div class="meta">סצנה 49 · 15 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#4fa3b8">אוויר</span></div>
+    <h2 class="title">פנים. מסוק — לילה</h2><div class="beats">אור אדום. ידיים של חובש עובדות מהר, ואז לאט, ואז לא. קול מחזיק לה את הראש מעל הרצפה, הפה זז, שום דבר לא נשמע מעל הרוטורים. החובש נשען אחורה. המסוק טס מערבה.</div><div class="refs">@cole-tehran @maya-tehran @helicopter</div></div>
+  <div class="frame"><div class="ph"><div class="big">S49-C1</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S50-C1" data-idx="99">
+  <div class="info"><div class="id">S50-C1</div><div class="meta">סצנה 50 · 30 שנ׳ · מערכה שלישית — המחיר<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — שחר</h2><div class="beats">החדר מלא, כולם עומדים, אף אחד ליד מסך. דדו בדלת כשהאלונקה עוברת — לא מצדיע, מניח יד על הכיסוי ומשאיר אותה. קול בצד, עדיין בבגדים מטהרן. דדו הולך אליו; יד על העורף — כמו עם מישהו משלך (OTS, פנים אחת בפריים). «יצאת מחור באדמה עם הקצינה שלי על הידיים.» מרפה. «ה-20 היה אתמול. אני לא עוצר אף אחד.»</div><div class="refs">@warroom @dado @cole-tehran @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S50-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S51-C1" data-idx="100">
+  <div class="info"><div class="id">S51-C1</div><div class="meta">סצנה 51 · 30 שנ׳ · מסגרת · 4<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">קול יושב, לא מדבר. עובר זמן; בראל לא ממלאת אותו. «אנחנו לא חייבים להגיע לשם היום.» / «אמרת שלוש פגישות.» / «אמרתי. אני יכולה לכתוב &#x27;כשיר&#x27; ולסגור את התיק עכשיו. אתה תעבור. תחזור לתפקיד. תיסע למקום הבא.» / «אז תכתבי.» / «אני יכולה. אבל אז מה שקרה שם ייסע איתך.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S51-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S51-C2" data-idx="101">
+  <div class="info"><div class="id">S51-C2</div><div class="meta">סצנה 51 · 30 שנ׳ · מסגרת · 4<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">שתיקה ארוכה. «היא ביקשה ממני לפתוח את המכתב לפני שיצאנו.» / «ולא פתחת.» / «אמרתי לה שאפתח כשנחזור.» מסתכל על הידיים. «אני מבטיח לאנשים דברים לפני שאני יוצא. וזה עובד. תמיד עבד. אני חוזר, ואז אני מקיים, וממשיכים הלאה.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S51-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S51-C3" data-idx="102">
+  <div class="info"><div class="id">S51-C3</div><div class="meta">סצנה 51 · 22 שנ׳ · מסגרת · 4<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«ופעמיים זה לא עבד.» / «פעמיים זה לא עבד.» / «אתה חושב שההבטחה הזאת הרגה אותה?» / «אני חושב שאני מבטיח כדי לא להיות שם.» האמת הראשונה שיוצאת בלי שהיא שואלת. «ספר לי איך זה נגמר.»</div><div class="refs">@cole-civilian @barel @clinic @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S51-C3</div><div>טרם נוצר · 22 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S52-C1" data-idx="103">
+  <div class="info"><div class="id">S52-C1</div><div class="meta">סצנה 52 · 30 שנ׳ · אפילוג<span class="tag" style="background:#5b8def">מכתש</span></div>
+    <h2 class="title">פנים. מכתש — חדר מלחמה — יום</h2><div class="beats">על המסך: שידור חי — מעבר גבול, שיירה, קהל מאחורי מחסומים. החדר מסתכל; מישהו סופר בקול בשקט. פנים יורדות מהלוח, אדום לירוק. «זה שמונה. זה תשע.» בחורה צעירה יורדת מרכב לתוך קהל שחיכה 181 יום — והחדר מתפרק. קלוז על הלוח: התמונה מהדשא — ירוק. קול מאחור, ידיים לצדדים, לא מריע. נושף החוצה בפעם הראשונה בסרט.</div><div class="note">⚠️ @noa-return = הדמות שבשידור (רזה, שיער קצוץ). @photo = התמונה על הלוח.</div><div class="refs">@warroom @tomer @dado @cole @photo @noa-return @hostage-board</div></div>
+  <div class="frame"><div class="ph"><div class="big">S52-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S53-C1" data-idx="104">
+  <div class="info"><div class="id">S53-C1</div><div class="meta">סצנה 53 · 30 שנ׳ · אפילוג<span class="tag" style="background:#6aa66a">קיבוץ</span></div>
+    <h2 class="title">חוץ. קיבוץ תלמי-אור — יום</h2><div class="beats">בוגנוויליה וחורי כדורים שסתמו בטיח, דשא שנזרע מחדש. רכב; קול יוצא — אזרחי, בלי תיק. על המרפסת, בכיסא גלגלים, ריבקה — קטנה, לא סנטימנטלית. מאחוריה דרך החלון: נועה, רזה, שיער קצוץ, חיה, מוקפת אנשים. ריבקה מרימה מבט ארוך. «הבן של אילנה.» / «אני לא מדבר עברית. אני מצטער.» / «היא לא לימדה אותך. ברור שלא לימדה אותך.»</div><div class="note">⚠️ שאלה לעומר: השורה הראשונה של ריבקה («הבן של אילנה») — בעברית עם כתוביות, או באנגלית במבטא? התסריט אומר &#x27;כל הדיאלוג באנגלית&#x27;.</div><div class="refs">@cole-civilian @rivka @noa-return @kibbutz</div></div>
+  <div class="frame"><div class="ph"><div class="big">S53-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S53-C2" data-idx="105">
+  <div class="info"><div class="id">S53-C2</div><div class="meta">סצנה 53 · 30 שנ׳ · אפילוג<span class="tag" style="background:#6aa66a">קיבוץ</span></div>
+    <h2 class="title">חוץ. קיבוץ תלמי-אור — יום</h2><div class="beats">היא לוקחת את היד שלו, הופכת, מסתכלת לו בפנים — לא בצלקת. «יש לך את העיניים שלה.» רגע. «למה היא לא סיפרה לי?» / «כי היא חשבה שאם לא תגיד, זה לא יהיה שלך.» / «ומה היא חשבה שיקרה?» / «שתהיה אמריקאי. ושתהיה בטוח.» טופחת על היד פעמיים ולא מרפה.</div><div class="note">⚠️ יד ביד = אינסרט ידיים (יד זקנה על אמה עם צלקת) בין הקלוזים.</div><div class="refs">@cole-civilian @rivka @kibbutz</div></div>
+  <div class="frame"><div class="ph"><div class="big">S53-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S53-C3" data-idx="106">
+  <div class="info"><div class="id">S53-C3</div><div class="meta">סצנה 53 · 25 שנ׳ · אפילוג<span class="tag" style="background:#6aa66a">קיבוץ</span></div>
+    <h2 class="title">חוץ. קיבוץ תלמי-אור — יום</h2><div class="beats">«היא נתנה לך שם לפני שהלכה. אתה יודע מה השם?» / «לא.» / «ארי.» קול עומד בלי לזוז על דשא בנגב, מחזיק יד של אישה זקנה. דרך החלון נועה רואה אותו — לא יודעת מי הוא — מרימה יד בכל זאת. הוא מרים את שלו.</div><div class="refs">@cole-civilian @rivka @noa-return @kibbutz</div></div>
+  <div class="frame"><div class="ph"><div class="big">S53-C3</div><div>טרם נוצר · 25 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S54-C1" data-idx="107">
+  <div class="info"><div class="id">S54-C1</div><div class="meta">סצנה 54 · 15 שנ׳ · אפילוג<span class="tag" style="background:#6aa66a">קיבוץ</span></div>
+    <h2 class="title">חוץ. בית קברות צבאי — יום</h2><div class="beats">שורות מצבות זהות, ברושים, רוח. קול ליד אחת, לא מדבר. מרים אבן קטנה מהשביל, מסובב פעם בין האצבעות, מניח על הקצה העליון. נשאר שם.</div><div class="note">⚠️ כיתוב על המצבה — נגד האור / מחוץ למיקוד.</div><div class="refs">@cole-civilian @kibbutz</div></div>
+  <div class="frame"><div class="ph"><div class="big">S54-C1</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S55-C1" data-idx="108">
+  <div class="info"><div class="id">S55-C1</div><div class="meta">סצנה 55 · 30 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">המעטפה על השולחן, סגורה. «זו הפגישה השלישית.» / «אני יודע.» / «אז אני שואלת אותך בפעם האחרונה. למה אתה פה?» הוא לא עונה מיד. קם, הולך לחלון, מזיז את הווילון — ולראשונה רואים מה בחוץ: אור, ברושים, גבעות נמוכות, בניין ממול. «ביקשו ממני לחזור לווירג&#x27;יניה לפני חמישה שבועות.» / «ולא חזרת.»</div><div class="note">⚠️ כאן פאנל 4 של @clinic (הווילון הפתוח) סוף-סוף בשימוש. השלט בעברית ממול — רחוק ורך, או תמונת PIL בפוסט.</div><div class="refs">@cole-civilian @barel @clinic-open @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S55-C1</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S55-C2" data-idx="109">
+  <div class="info"><div class="id">S55-C2</div><div class="meta">סצנה 55 · 30 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«אין שם כלום. יש דירה עם חשבון חשמל.» מסתובב אליה. «באתי לפה בשביל מדינה שהיא לא שלי, בשביל בחורה שלא פגשתי, ואיבדתי בן אדם שהייתי צריך להגיד לו משהו ולא הספקתי.» / «ולמה אתה פה, קול?» רגע ארוך מאוד. «כי זה המקום הראשון מזה ארבע שנים שלא רציתי לצאת ממנו.» בראל לא כותבת. רק מהנהנת.</div><div class="refs">@cole-civilian @barel @clinic-open @letter-sealed</div></div>
+  <div class="frame"><div class="ph"><div class="big">S55-C2</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S55-C3" data-idx="110">
+  <div class="info"><div class="id">S55-C3</div><div class="meta">סצנה 55 · 30 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">חוזר לכיסא. מסתכל על המעטפה. מרים אותה. ופותח. קלוז על הנייר — כתב יד, מישור המיקוד על קצה הדף והאצבעות. קריינות אילנה (בפוסט): «קול. אם אתה קורא את זה, כנראה איחרתי. לא סיפרתי לך מאיפה אני כי חשבתי שאם לא אגיד, זה לא יהיה שלך. שלא תצטרך לסחוב את זה.»</div><div class="note">⚠️ הקריינות של אילנה מוקלטת בנפרד (ElevenLabs) ומונחת בפוסט — בקליפ אף אחד לא מדבר, פיות סגורים.</div><div class="refs">@cole-civilian @barel @clinic-open @letter-sealed @letter-open</div></div>
+  <div class="frame"><div class="ph"><div class="big">S55-C3</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S55-C4" data-idx="111">
+  <div class="info"><div class="id">S55-C4</div><div class="meta">סצנה 55 · 30 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">קריינות (המשך, בפוסט): «טעיתי. לקח לי 38 שנה להבין את זה. היה לך שם עוד לפני שהיה לך שם. קראתי לך ארי. אמא.» קול מחזיק את הנייר. לא בוכה — אבל אלה כבר לא הפנים מהשנייה הראשונה של הסרט. בראל מסתכלת עליו הרבה זמן.</div><div class="refs">@cole-civilian @barel @clinic-open @letter-open</div></div>
+  <div class="frame"><div class="ph"><div class="big">S55-C4</div><div>טרם נוצר · 30 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S55-C5" data-idx="112">
+  <div class="info"><div class="id">S55-C5</div><div class="meta">סצנה 55 · 12 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#d4a259">קליניקה</span></div>
+    <h2 class="title">פנים. קליניקה — יום</h2><div class="beats">«אז נתראה בשבוע הבא.» / «אמרת שלוש פגישות.» / «אמרתי שצריך שלוש. לא אמרתי שזה מספיק.» הוא כמעט מחייך.</div><div class="refs">@cole-civilian @barel @clinic-open @letter-open</div></div>
+  <div class="frame"><div class="ph"><div class="big">S55-C5</div><div>טרם נוצר · 12 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S56-C1" data-idx="113">
+  <div class="info"><div class="id">S56-C1</div><div class="meta">סצנה 56 · 15 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">חוץ. הנגב — שחר / פנים. מכתש — רציף</h2><div class="beats">מטוס תובלה ממריא מעל מדבר ריק ומתכווץ לתוך האור. קול לא עליו — עומד על המסלול ומסתכל עליו מתרחק. אחרי כמה שניות מסתובב והולך לכיוון השני.</div><div class="refs">@cole-civilian @desert @plane</div></div>
+  <div class="frame"><div class="ph"><div class="big">S56-C1</div><div>טרם נוצר · 15 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<section class="shot" id="S56-C2" data-idx="114">
+  <div class="info"><div class="id">S56-C2</div><div class="meta">סצנה 56 · 10 שנ׳ · מסגרת · 5 · סיום<span class="tag" style="background:#c9b26b">נגב</span></div>
+    <h2 class="title">חוץ. הנגב — שחר / פנים. מכתש — רציף</h2><div class="beats">90 מטר מתחת לאותו חול: חדר המלחמה מואר, המסכים חיים. תומר מניח כוס קפה ומרכיב אוזניות. איפשהו בעולם משהו מתחיל לשדר. חיתוך לשחור (כרטיס הכותרת בפוסט).</div><div class="refs">@warroom @tomer</div></div>
+  <div class="frame"><div class="ph"><div class="big">S56-C2</div><div>טרם נוצר · 10 שנ׳ · 21:9</div><div style="font-size:13px;opacity:.7">פרומפט טרם נכתב</div></div></div>
+  <div class="pbox"><div class="phead"><span>Prompt · Seedance 2.5 · Kinovi</span></div><div class="empty">הפרומפט ייכתב כשנגיע לסצנה</div></div>
+</section>
+<div class="nav"><button onclick="go(-1)">↑</button><button onclick="go(1)">↓</button></div><script>
+const shots=[...document.querySelectorAll('.shot')];
+function cur(){let best=0,bd=1e9;shots.forEach((s,i)=>{const d=Math.abs(s.getBoundingClientRect().top);if(d<bd){bd=d;best=i}});return best}
+function go(d){const i=Math.min(shots.length-1,Math.max(0,cur()+d));shots[i].scrollIntoView({behavior:'smooth'})}
+function upd(){const i=cur();document.getElementById('pos').textContent=(i+1)+' / '+shots.length;document.getElementById('jump').value=shots[i].id}
+document.addEventListener('scroll',upd,{passive:true});upd();
+document.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();go(1)}if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();go(-1)}});
+function toggle(id,b){const p=document.getElementById('p-'+id);p.classList.toggle('open');b.textContent=p.classList.contains('open')?'see less':'see more'}
+function copyP(id,b){navigator.clipboard.writeText(document.getElementById('p-'+id).textContent).then(()=>{b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)})}
+function swapTake(b){const v=b.closest('.frame').querySelector('video');v.src=b.dataset.src;v.load();b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');const a=b.parentElement.querySelector('a');if(a)a.href=b.dataset.src}
+document.querySelectorAll('video').forEach(v=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)v.pause()}));io.observe(v)});
+</script></body></html>
